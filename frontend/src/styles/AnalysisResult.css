@@ -1,0 +1,35 @@
+.analysis-container{
+    width:90%;
+    margin:40px auto;
+}
+
+.analysis-container h2{
+    margin-bottom:20px;
+    color:#1e293b;
+}
+
+.result-card{
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.result-card h3{
+    margin-bottom:15px;
+    color:#2563eb;
+}
+
+.result-card p{
+    margin:10px 0;
+    font-size:17px;
+}
+
+.result-card ul{
+    margin-top:15px;
+    padding-left:20px;
+}
+
+.result-card li{
+    margin:8px 0;
+}
