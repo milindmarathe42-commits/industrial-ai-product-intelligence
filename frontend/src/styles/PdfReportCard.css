@@ -1,0 +1,227 @@
+.pdf-card{
+
+    width:92%;
+
+    margin:50px auto;
+
+    padding:35px;
+
+    border-radius:28px;
+
+    background:white;
+
+    box-shadow:0 18px 45px rgba(15,23,42,.08);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:40px;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.pdf-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+
+    height:260px;
+
+    border-radius:50%;
+
+    top:-130px;
+
+    right:-100px;
+
+    background:rgba(220,38,38,.08);
+
+}
+
+.pdf-left{
+
+    display:flex;
+
+    gap:25px;
+
+    align-items:flex-start;
+
+    flex:1;
+
+    z-index:2;
+
+}
+
+.pdf-icon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:22px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(135deg,#DC2626,#EF4444);
+
+    color:white;
+
+    font-size:40px;
+
+    box-shadow:0 15px 30px rgba(220,38,38,.25);
+
+}
+
+.pdf-left h2{
+
+    font-size:30px;
+
+    color:#0F172A;
+
+    margin-bottom:10px;
+
+    font-weight:800;
+
+}
+
+.pdf-left p{
+
+    color:#64748B;
+
+    line-height:1.8;
+
+    margin-bottom:25px;
+
+}
+
+.pdf-features{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+}
+
+.pdf-features div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#F8FAFC;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+    color:#334155;
+
+    transition:.3s;
+
+}
+
+.pdf-features div:hover{
+
+    background:#EEF6FF;
+
+    transform:translateY(-3px);
+
+}
+
+.pdf-features svg{
+
+    color:#2563EB;
+
+}
+
+.pdf-right{
+
+    z-index:2;
+
+}
+
+.pdf-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:18px 30px;
+
+    background:linear-gradient(135deg,#2563EB,#3B82F6);
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:16px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    transition:.35s;
+
+    box-shadow:0 15px 35px rgba(37,99,235,.25);
+
+}
+
+.pdf-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.35);
+
+}
+
+@media(max-width:950px){
+
+    .pdf-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .pdf-features{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .pdf-right{
+
+        width:100%;
+
+    }
+
+    .pdf-btn{
+
+        justify-content:center;
+
+        width:100%;
+
+    }
+
+}

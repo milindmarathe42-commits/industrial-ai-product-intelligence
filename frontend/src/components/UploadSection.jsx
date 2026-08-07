@@ -1,104 +1,25 @@
-import { useState } from "react";
-import "../styles/UploadSection.css";
-import api from "../services/api";
+import UploadCard from "./UploadCard";
 import AnalysisResult from "./AnalysisResult";
+import "../styles/UploadSection.css";
 
-function UploadSection({ refreshData }) {
-
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [preview, setPreview] = useState(null);
-    const [result, setResult] = useState(null);
-
-    const handleImage = (e) => {
-
-        const file = e.target.files[0];
-
-        if (!file) return;
-
-        setSelectedImage(file);
-        setPreview(URL.createObjectURL(file));
-
-    };
-
-    const handleUpload = async () => {
-
-        if (!selectedImage) {
-
-            alert("Please select an image.");
-
-            return;
-
-        }
-
-        const formData = new FormData();
-
-        formData.append("file", selectedImage);
-
-        try {
-
-            const response = await api.post("/upload", formData);
-
-            console.log(response.data);
-
-            setResult(response.data);
-
-            // Refresh Dashboard & Product Table
-            refreshData();
-
-            alert("Image Uploaded Successfully!");
-
-        }
-
-        catch (error) {
-
-            console.log(error);
-
-            alert("Upload Failed");
-
-        }
-
-    };
+function UploadSection({
+    refreshData,
+    result,
+    setResult
+}) {
 
     return (
 
-        <div className="upload-container">
+        <div className="upload-layout">
 
-            <h2>Upload Product Image</h2>
+            <UploadCard
+                refreshData={refreshData}
+                setResult={setResult}
+            />
 
-            <div className="upload-box">
-
-                {
-                    preview ?
-
-                        <img
-                            src={preview}
-                            alt="preview"
-                            className="preview-image"
-                        />
-
-                        :
-
-                        <>
-                            <p>Drag & Drop Image Here</p>
-                            <span>OR</span>
-                        </>
-                }
-
-                <input
-                    type="file"
-                    onChange={handleImage}
-                />
-
-            </div>
-
-            <button
-                className="analyze-btn"
-                onClick={handleUpload}
-            >
-                Analyze Product
-            </button>
-
-            <AnalysisResult result={result} />
+            <AnalysisResult
+                result={result}
+            />
 
         </div>
 

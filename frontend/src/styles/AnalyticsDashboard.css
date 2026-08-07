@@ -1,0 +1,398 @@
+.analytics-container{
+
+    width:92%;
+
+    margin:60px auto;
+
+}
+
+.analytics-container h2{
+
+    font-size:34px;
+
+    color:#0F172A;
+
+    margin-bottom:35px;
+
+    font-weight:800;
+
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
+
+    margin-bottom:35px;
+
+}
+
+.stat-card{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:28px;
+
+    box-shadow:0 15px 35px rgba(15,23,42,.08);
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.stat-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    top:-90px;
+
+    right:-70px;
+
+    background:rgba(37,99,235,.08);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.15);
+
+}
+
+.stat-card h3{
+
+    color:#64748B;
+
+    font-size:16px;
+
+    margin-bottom:15px;
+
+}
+
+.stat-card h1{
+
+    font-size:46px;
+
+    color:#2563EB;
+
+    font-weight:800;
+
+}
+
+.charts-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:30px;
+
+}
+
+.chart-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:0 15px 40px rgba(15,23,42,.08);
+
+    transition:.35s;
+
+}
+
+.chart-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 22px 45px rgba(37,99,235,.12);
+
+}
+
+.chart-card h3{
+
+    color:#0F172A;
+
+    font-size:22px;
+
+    margin-bottom:20px;
+
+    font-weight:700;
+
+}
+
+.recharts-wrapper{
+
+    font-size:14px;
+
+}
+
+@media(max-width:1100px){
+
+    .stats-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .charts-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .stats-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+/* ==========================================
+   Manufacturing Health Card
+========================================== */
+
+.health-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:40px;
+
+    background:linear-gradient(135deg,#ffffff,#f8fbff);
+
+    border-radius:26px;
+
+    padding:35px 45px;
+
+    margin-bottom:35px;
+
+    box-shadow:0 18px 45px rgba(15,23,42,.10);
+
+    border:1px solid rgba(37,99,235,.08);
+
+    overflow:hidden;
+
+    position:relative;
+
+    animation:healthFade .8s ease;
+
+}
+
+.health-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+
+    height:260px;
+
+    border-radius:50%;
+
+    right:-120px;
+
+    top:-120px;
+
+    background:rgba(37,99,235,.05);
+
+}
+
+.health-left{
+
+    flex:1;
+
+    z-index:2;
+
+}
+
+.health-title{
+
+    display:inline-block;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#64748B;
+
+    margin-bottom:18px;
+
+    letter-spacing:.5px;
+
+    text-transform:uppercase;
+
+}
+
+.health-left h1{
+
+    font-size:72px;
+
+    font-weight:900;
+
+    margin:0;
+
+    line-height:1;
+
+}
+
+.health-left h2{
+
+    font-size:30px;
+
+    font-weight:800;
+
+    margin:12px 0 18px;
+
+}
+
+.health-left p{
+
+    font-size:17px;
+
+    color:#475569;
+
+    line-height:1.7;
+
+    max-width:620px;
+
+}
+
+.health-right{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:2;
+
+}
+
+.health-circle{
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    border:12px solid #22C55E;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:42px;
+
+    font-weight:900;
+
+    background:white;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+}
+
+.health-card:hover .health-circle{
+
+    transform:scale(1.05) rotate(3deg);
+
+}
+
+@keyframes healthFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@media(max-width:1000px){
+
+    .health-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        padding:30px;
+
+    }
+
+    .health-left p{
+
+        max-width:100%;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .health-left h1{
+
+        font-size:54px;
+
+    }
+
+    .health-left h2{
+
+        font-size:24px;
+
+    }
+
+    .health-circle{
+
+        width:140px;
+
+        height:140px;
+
+        font-size:32px;
+
+    }
+
+}

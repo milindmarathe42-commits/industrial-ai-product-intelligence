@@ -1,0 +1,233 @@
+.loader-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.72);
+
+    backdrop-filter:blur(8px);
+
+    -webkit-backdrop-filter:blur(8px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+    animation:fadeIn .3s ease;
+
+}
+
+.loader-card{
+
+    width:460px;
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 30px 70px rgba(0,0,0,.25);
+
+    animation:popUp .35s ease;
+
+}
+
+.loader-robot{
+
+    font-size:70px;
+
+    margin-bottom:15px;
+
+    animation:floatRobot 2s ease-in-out infinite;
+
+}
+
+.loader-card h2{
+
+    color:#0F172A;
+
+    font-size:30px;
+
+    margin-bottom:10px;
+
+    font-weight:800;
+
+}
+
+.loader-card p{
+
+    color:#64748B;
+
+    margin-bottom:30px;
+
+    font-size:16px;
+
+}
+
+.loader-bar{
+
+    width:100%;
+
+    height:12px;
+
+    background:#E2E8F0;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-bottom:30px;
+
+}
+
+.loader-progress{
+
+    height:100%;
+
+    width:100%;
+
+    background:linear-gradient(
+
+        90deg,
+
+        #2563EB,
+
+        #38BDF8,
+
+        #2563EB
+
+    );
+
+    background-size:300%;
+
+    animation:loadingBar 2s linear infinite;
+
+}
+
+.loader-steps{
+
+    text-align:left;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.loader-steps div{
+
+    background:#F8FAFC;
+
+    padding:12px 16px;
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    color:#334155;
+
+    border:1px solid #E2E8F0;
+
+}
+
+@keyframes loadingBar{
+
+    0%{
+
+        background-position:0%;
+
+    }
+
+    100%{
+
+        background-position:300%;
+
+    }
+
+}
+
+@keyframes floatRobot{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes popUp{
+
+    from{
+
+        transform:scale(.9);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .loader-card{
+
+        width:90%;
+
+        padding:30px 22px;
+
+    }
+
+    .loader-card h2{
+
+        font-size:24px;
+
+    }
+
+}

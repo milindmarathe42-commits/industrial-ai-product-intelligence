@@ -18,6 +18,7 @@ venv/
 # Uploads and Outputs
 backend/uploads/
 backend/outputs/
+backend/reports/
 
 # Node Modules (Frontend)
 node_modules/

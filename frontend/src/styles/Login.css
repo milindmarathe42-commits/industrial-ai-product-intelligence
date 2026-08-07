@@ -1,0 +1,502 @@
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:"Segoe UI",sans-serif;
+
+}
+
+.login-page{
+
+    width:100%;
+
+    min-height:100vh;
+
+    display:grid;
+
+    grid-template-columns:1.2fr 1fr;
+
+    overflow:hidden;
+
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+}
+
+.login-left{
+
+    color:white;
+
+    padding:70px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.login-left::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:50%;
+
+    top:-150px;
+
+    left:-120px;
+
+}
+
+.login-left::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+
+    height:320px;
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:50%;
+
+    bottom:-120px;
+
+    right:-120px;
+
+}
+
+.brand{
+
+    z-index:2;
+
+    margin-bottom:60px;
+
+}
+
+.brand-icon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.15);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:42px;
+
+    margin-bottom:25px;
+
+    backdrop-filter:blur(10px);
+
+}
+
+.brand h1{
+
+    font-size:52px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.brand p{
+
+    font-size:18px;
+
+    color:#dbeafe;
+
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.hero-content h2{
+
+    font-size:42px;
+
+    line-height:1.3;
+
+    margin-bottom:12px;
+
+    font-weight:700;
+
+}
+
+.hero-content p{
+
+    margin-top:25px;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:#dbeafe;
+
+    max-width:520px;
+
+}
+
+.feature-list{
+
+    margin-top:45px;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+.feature-list div{
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(12px);
+
+    padding:16px 20px;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.feature-list div:hover{
+
+    transform:translateY(-5px);
+
+    background:rgba(255,255,255,.2);
+
+}
+.login-right{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+    background:#f8fafc;
+
+}
+
+.login-card{
+
+    width:100%;
+
+    max-width:470px;
+
+    background:rgba(255,255,255,.92);
+
+    backdrop-filter:blur(20px);
+
+    padding:45px;
+
+    border-radius:28px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.15);
+
+    animation:fadeUp .8s ease;
+
+}
+
+.login-card h2{
+
+    font-size:34px;
+
+    color:#0f172a;
+
+    margin-bottom:8px;
+
+    font-weight:800;
+
+}
+
+.login-card p{
+
+    color:#64748b;
+
+    margin-bottom:35px;
+
+    font-size:15px;
+
+}
+
+.input-group{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    background:#f8fafc;
+
+    border:2px solid #e2e8f0;
+
+    border-radius:14px;
+
+    padding:0 18px;
+
+    margin-bottom:22px;
+
+    transition:.3s;
+
+}
+
+.input-group:hover{
+
+    border-color:#3b82f6;
+
+}
+
+.input-group:focus-within{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+
+}
+
+.input-group svg{
+
+    color:#2563eb;
+
+    font-size:18px;
+
+}
+
+.input-group input{
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    font-size:16px;
+
+    color:#1e293b;
+
+}
+
+.login-btn{
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    transition:.35s;
+
+    margin-top:10px;
+
+}
+
+.login-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 35px rgba(37,99,235,.35);
+
+}
+
+.login-btn svg{
+
+    transition:.3s;
+
+}
+
+.login-btn:hover svg{
+
+    transform:translateX(5px);
+
+}
+
+.register-link{
+
+    margin-top:28px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+.register-link a{
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    margin-left:8px;
+
+    font-weight:700;
+
+}
+
+.register-link a:hover{
+
+    text-decoration:underline;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@media(max-width:1100px){
+
+    .login-page{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .login-left{
+
+        display:none;
+
+    }
+
+    .login-right{
+
+        background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+
+        min-height:100vh;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .login-card{
+
+        padding:30px;
+
+        margin:20px;
+
+    }
+
+    .login-card h2{
+
+        font-size:28px;
+
+    }
+
+    .brand h1{
+
+        font-size:42px;
+
+    }
+
+}
+.password-toggle{
+
+    cursor:pointer;
+
+    color:#64748b;
+
+    font-size:18px;
+
+    transition:.3s;
+
+}
+
+.password-toggle:hover{
+
+    color:#2563eb;
+
+}
+.login-btn:disabled{
+
+    opacity:.75;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
