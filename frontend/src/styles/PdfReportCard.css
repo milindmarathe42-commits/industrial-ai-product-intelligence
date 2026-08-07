@@ -194,6 +194,106 @@
 
 }
 
+/* =======================
+        FOOTER
+======================= */
+
+.app-footer{
+
+    width:92%;
+
+    margin:0 auto 40px;
+
+    padding:45px 30px;
+
+    border-radius:24px;
+
+    background:linear-gradient(135deg,#0F172A,#1E293B);
+
+    color:white;
+
+    text-align:center;
+
+    box-shadow:0 20px 45px rgba(15,23,42,.18);
+
+}
+
+.app-footer h3{
+
+    font-size:30px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.app-footer p{
+
+    color:#CBD5E1;
+
+    margin:8px 0;
+
+    font-size:16px;
+
+}
+
+.footer-tech{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin:28px 0;
+
+}
+
+.footer-tech span{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:12px 18px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:30px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.footer-tech span:hover{
+
+    background:#2563EB;
+
+    transform:translateY(-3px);
+
+}
+
+.footer-copy{
+
+    margin-top:20px;
+
+    padding-top:20px;
+
+    border-top:1px solid rgba(255,255,255,.15);
+
+    font-size:14px;
+
+    color:#94A3B8;
+
+}
+
 @media(max-width:950px){
 
     .pdf-card{
@@ -221,6 +321,26 @@
         justify-content:center;
 
         width:100%;
+
+    }
+
+    .app-footer{
+
+        padding:35px 20px;
+
+    }
+
+    .app-footer h3{
+
+        font-size:24px;
+
+    }
+
+    .footer-tech{
+
+        flex-direction:column;
+
+        align-items:center;
 
     }
 

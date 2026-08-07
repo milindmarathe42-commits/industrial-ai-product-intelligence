@@ -4,8 +4,12 @@ import {
     FaCheckCircle,
     FaChartBar,
     FaRobot,
-    FaClipboardCheck
+    FaClipboardCheck,
+    FaGithub,
+    FaReact
 } from "react-icons/fa";
+
+import { SiFastapi } from "react-icons/si";
 
 import "../styles/PdfReportCard.css";
 
@@ -15,62 +19,66 @@ function PdfReportCard({ result }) {
 
     return (
 
-        <div className="pdf-card">
+        <>
 
-            <div className="pdf-left">
+            <div className="pdf-card">
 
-                <div className="pdf-icon">
+                <div className="pdf-left">
 
-                    <FaFilePdf />
+                    <div className="pdf-icon">
 
-                </div>
+                        <FaFilePdf />
 
-                <div>
+                    </div>
 
-                    <h2>
+                    <div>
 
-                        AI Inspection Report Generated
+                        <h2>
 
-                    </h2>
+                            AI Inspection Report Generated
 
-                    <p>
+                        </h2>
 
-                        Your inspection report has been successfully generated
-                        and is ready for viewing or downloading.
+                        <p>
 
-                    </p>
+                            Your inspection report has been successfully generated
+                            and is ready for viewing or downloading.
 
-                    <div className="pdf-features">
+                        </p>
 
-                        <div>
+                        <div className="pdf-features">
 
-                            <FaCheckCircle />
+                            <div>
 
-                            Product Information
+                                <FaCheckCircle />
 
-                        </div>
+                                Product Information
 
-                        <div>
+                            </div>
 
-                            <FaRobot />
+                            <div>
 
-                            AI Inspection
+                                <FaRobot />
 
-                        </div>
+                                AI Inspection
 
-                        <div>
+                            </div>
 
-                            <FaChartBar />
+                            <div>
 
-                            Quality Analysis
+                                <FaChartBar />
 
-                        </div>
+                                Quality Analysis
 
-                        <div>
+                            </div>
 
-                            <FaClipboardCheck />
+                            <div>
 
-                            Recommendations
+                                <FaClipboardCheck />
+
+                                Recommendations
+
+                            </div>
 
                         </div>
 
@@ -78,31 +86,61 @@ function PdfReportCard({ result }) {
 
                 </div>
 
+                <div className="pdf-right">
+
+                    <a
+
+                        href={`http://127.0.0.1:8000/${result.pdf_report}`}
+
+                        target="_blank"
+
+                        rel="noreferrer"
+
+                        className="pdf-btn"
+
+                    >
+
+                        <FaDownload />
+
+                        Open PDF Report
+
+                    </a>
+
+                </div>
+
             </div>
 
-            <div className="pdf-right">
+            <footer className="app-footer">
 
-                <a
+                <h3>Industrial AI Product Intelligence Platform</h3>
 
-                    href={`http://127.0.0.1:8000/${result.pdf_report}`}
+                <p>
+                    AI Powered Manufacturing Quality Inspection System
+                </p>
 
-                    target="_blank"
+                <div className="footer-tech">
 
-                    rel="noreferrer"
+                    <span><FaReact /> React</span>
 
-                    className="pdf-btn"
+                    <span><SiFastapi /> FastAPI</span>
 
-                >
+                    <span>YOLOv8</span>
 
-                    <FaDownload />
+                    <span>Gemini AI</span>
 
-                    Open PDF Report
+                    <span>SQLite</span>
 
-                </a>
+                </div>
 
-            </div>
+                <p className="footer-copy">
 
-        </div>
+                    © 2026 Industrial AI Team • Version 1.0.0
+
+                </p>
+
+            </footer>
+
+        </>
 
     );
 
