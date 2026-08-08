@@ -1,364 +1,376 @@
-.viewer-overlay{
+.viewer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
-    position:fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    inset:0;
+    z-index: 99999;
 
-    background:rgba(15,23,42,.88);
-
-    backdrop-filter:blur(12px);
-
-    -webkit-backdrop-filter:blur(12px);
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    z-index:99999;
-
-    animation:viewerFade .35s ease;
-
+    animation: viewerFade 0.35s ease;
 }
 
-.viewer-overlay h2{
 
-    display:flex;
+.viewer-overlay h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 
-    align-items:center;
+    color: white;
 
-    gap:12px;
+    margin: 0 0 25px 0;
 
-    color:white;
-
-    margin-bottom:35px;
-
-    font-size:34px;
-
-    font-weight:700;
-
+    font-size: 34px;
+    font-weight: 700;
 }
 
-.viewer-wrapper{
 
-    position:relative;
+/* MAIN VIEWER */
+.viewer-wrapper {
+    position: relative;
 
-    width:85vw;
+    width: 85vw;
+    max-width: 1400px;
 
-    max-width:1400px;
+    height: 75vh;
 
-    height:75vh;
+    border-radius: 24px;
 
-    border-radius:24px;
+    overflow: hidden;
 
-    overflow:hidden;
-
-    background:#ffffff;
+    background: #ffffff;
 
     box-shadow:
-
-        0 30px 80px rgba(0,0,0,.45);
-
+        0 30px 80px rgba(0, 0, 0, 0.45);
 }
 
-.viewer-image{
 
-    position:absolute;
+/* BOTH IMAGES USE EXACT SAME SIZE */
+.viewer-image {
+    position: absolute;
 
-    inset:0;
+    inset: 0;
 
-    width:100%;
+    width: 100%;
+    height: 100%;
 
-    height:100%;
+    object-fit: contain;
+    object-position: center;
 
-    object-fit:contain;
+    background: #f8fafc;
 
-    background:#F8FAFC;
-
-    user-select:none;
-
-    pointer-events:none;
-
+    user-select: none;
+    pointer-events: none;
 }
 
-.viewer-overlay-image{
 
-    position:absolute;
+/*
+    IMPORTANT:
+    The overlay itself is only the visible LEFT/RIGHT
+    portion, but its image must remain the FULL viewer size.
+*/
+.viewer-overlay-image {
+    position: absolute;
 
-    inset:0;
+    top: 0;
+    left: 0;
 
-    overflow:hidden;
+    height: 100%;
 
-    border-right:4px solid white;
+    overflow: hidden;
+
+    border-right: 4px solid white;
 
     box-shadow:
+        0 0 25px rgba(0, 0, 0, 0.30);
 
-        0 0 25px rgba(0,0,0,.30);
-
+    z-index: 2;
 }
 
-.viewer-overlay-image img{
 
-    position:absolute;
+/*
+    IMPORTANT FIX:
+    Do NOT use width:100% here.
+    That was making the image resize according to
+    the overlay width.
+*/
+.viewer-overlay-image img {
+    position: absolute;
 
-    inset:0;
+    top: 0;
+    left: 0;
 
-    width:100%;
+    width: 85vw;
+    max-width: 1400px;
 
-    height:100%;
+    height: 75vh;
 
-    object-fit:contain;
+    object-fit: contain;
+    object-position: center;
 
+    background: #f8fafc;
+
+    user-select: none;
+    pointer-events: none;
 }
 
-.viewer-divider{
 
-    position:absolute;
+/* DIVIDER */
+.viewer-divider {
+    position: absolute;
 
-    top:0;
+    top: 0;
+    bottom: 0;
 
-    bottom:0;
+    width: 4px;
 
-    width:4px;
+    background: white;
 
-    background:white;
+    transform: translateX(-50%);
 
-    transform:translateX(-50%);
-
-    z-index:5;
-
-}
-
-.viewer-handle{
-
-    position:absolute;
-
-    left:50%;
-
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    width:72px;
-
-    height:72px;
-
-    border-radius:50%;
-
-    background:white;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:30px;
-
-    color:#2563EB;
-
-    font-weight:700;
-
-    cursor:ew-resize;
+    z-index: 5;
 
     box-shadow:
-
-        0 15px 40px rgba(37,99,235,.25);
-
-    transition:.3s;
-
-}
-.viewer-handle:hover{
-
-    transform:translate(-50%,-50%) scale(1.12);
-
-    background:#2563EB;
-
-    color:white;
-
+        0 0 15px rgba(0, 0, 0, 0.25);
 }
 
-.viewer-slider{
 
-    position:absolute;
+/* SLIDER HANDLE */
+.viewer-handle {
+    position: absolute;
 
-    inset:0;
+    left: 50%;
+    top: 50%;
 
-    width:100%;
+    transform: translate(-50%, -50%);
 
-    height:100%;
+    width: 72px;
+    height: 72px;
 
-    margin:0;
+    border-radius: 50%;
 
-    opacity:0;
+    background: white;
 
-    cursor:ew-resize;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    z-index:10;
+    font-size: 30px;
 
-}
+    color: #2563eb;
 
-.viewer-close{
+    font-weight: 700;
 
-    position:absolute;
-
-    top:35px;
-
-    right:40px;
-
-    width:58px;
-
-    height:58px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:white;
-
-    color:#EF4444;
-
-    font-size:24px;
-
-    cursor:pointer;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    cursor: ew-resize;
 
     box-shadow:
+        0 15px 40px rgba(37, 99, 235, 0.25);
 
-        0 10px 30px rgba(0,0,0,.25);
-
-    transition:.35s;
-
+    transition: 0.3s;
 }
 
-.viewer-close:hover{
 
-    transform:rotate(90deg) scale(1.1);
+.viewer-handle:hover {
+    transform: translate(-50%, -50%) scale(1.12);
 
-    background:#EF4444;
+    background: #2563eb;
 
-    color:white;
-
+    color: white;
 }
 
-.viewer-labels{
 
-    width:85vw;
+/* INVISIBLE SLIDER */
+.viewer-slider {
+    position: absolute;
 
-    max-width:1400px;
+    inset: 0;
 
-    display:flex;
+    width: 100%;
+    height: 100%;
 
-    justify-content:space-between;
+    margin: 0;
 
-    margin-top:25px;
+    opacity: 0;
 
+    cursor: ew-resize;
+
+    z-index: 10;
 }
 
-.viewer-labels span{
 
-    background:white;
+/* CLOSE BUTTON */
+.viewer-close {
+    position: absolute;
 
-    color:#334155;
+    top: 35px;
+    right: 40px;
 
-    padding:12px 22px;
+    width: 58px;
+    height: 58px;
 
-    border-radius:40px;
+    border: none;
 
-    font-size:16px;
+    border-radius: 50%;
 
-    font-weight:700;
+    background: white;
+
+    color: #ef4444;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25);
 
-        0 10px 25px rgba(0,0,0,.15);
+    transition: 0.35s;
 
+    z-index: 20;
 }
 
-@keyframes viewerFade{
 
-    from{
+.viewer-close:hover {
+    transform: rotate(90deg) scale(1.1);
 
-        opacity:0;
+    background: #ef4444;
 
-        transform:scale(.95);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:scale(1);
-
-    }
-
+    color: white;
 }
 
-@media(max-width:992px){
 
-    .viewer-wrapper{
+/* LABELS */
+.viewer-labels {
+    width: 85vw;
+    max-width: 1400px;
 
-        width:95vw;
+    display: flex;
 
-        height:65vh;
+    justify-content: space-between;
 
-    }
-
+    margin-top: 20px;
 }
 
-@media(max-width:768px){
 
-    .viewer-overlay h2{
+.viewer-labels span {
+    background: white;
 
-        font-size:24px;
+    color: #334155;
 
-        text-align:center;
+    padding: 12px 22px;
 
+    border-radius: 40px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ANIMATION */
+@keyframes viewerFade {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
     }
 
-    .viewer-wrapper{
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
-        width:96vw;
 
-        height:52vh;
+/* TABLET */
+@media (max-width: 992px) {
 
-        border-radius:16px;
-
+    .viewer-wrapper {
+        width: 95vw;
+        height: 65vh;
     }
 
-    .viewer-handle{
-
-        width:56px;
-
-        height:56px;
-
-        font-size:22px;
-
+    .viewer-overlay-image img {
+        width: 95vw;
+        height: 65vh;
     }
 
-    .viewer-labels{
+    .viewer-labels {
+        width: 95vw;
+    }
+}
 
-        width:96vw;
 
-        flex-direction:column;
+/* MOBILE */
+@media (max-width: 768px) {
 
-        gap:12px;
+    .viewer-overlay h2 {
+        font-size: 24px;
 
+        text-align: center;
+
+        margin-bottom: 18px;
     }
 
-    .viewer-labels span{
 
-        text-align:center;
+    .viewer-wrapper {
+        width: 96vw;
 
+        height: 52vh;
+
+        border-radius: 16px;
     }
 
+
+    .viewer-overlay-image img {
+        width: 96vw;
+
+        height: 52vh;
+    }
+
+
+    .viewer-handle {
+        width: 56px;
+        height: 56px;
+
+        font-size: 22px;
+    }
+
+
+    .viewer-labels {
+        width: 96vw;
+
+        flex-direction: column;
+
+        gap: 12px;
+
+        margin-top: 15px;
+    }
+
+
+    .viewer-labels span {
+        text-align: center;
+    }
+
+
+    .viewer-close {
+        top: 15px;
+        right: 15px;
+
+        width: 48px;
+        height: 48px;
+
+        font-size: 20px;
+    }
 }
