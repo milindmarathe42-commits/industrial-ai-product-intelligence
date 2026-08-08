@@ -17,6 +17,8 @@ import {
 
 import ImageComparisonViewer from "./ImageComparisonViewer";
 
+import api from "../services/api";
+
 function ProductModal({ product, onClose }) {
 
     const [compareOpen, setCompareOpen] = useState(false);
@@ -26,35 +28,27 @@ function ProductModal({ product, onClose }) {
     let defects = [];
 
     try {
-
         defects = JSON.parse(product.possible_defects || "[]");
-
     }
-
     catch {
-
         defects = [];
-
     }
+
+    const backendUrl = api.defaults.baseURL;
+
+    const originalImage = `${backendUrl}/${product.input_image}`;
+    const detectedImage = `${backendUrl}/${product.output_image}`;
+    const pdfUrl = `${backendUrl}/${product.pdf_report}`;
 
     return (
-
         <>
-
             {
-
                 compareOpen &&
-
                 <ImageComparisonViewer
-
-                    original={`http://127.0.0.1:8000/${product.input_image}`}
-
-                    detected={`http://127.0.0.1:8000/${product.output_image}`}
-
+                    original={originalImage}
+                    detected={detectedImage}
                     onClose={() => setCompareOpen(false)}
-
                 />
-
             }
 
             <div className="modal-overlay">
@@ -62,23 +56,15 @@ function ProductModal({ product, onClose }) {
                 <div className="modal-card">
 
                     <button
-
                         className="close-btn"
-
                         onClick={onClose}
-
                     >
-
                         <FaTimes />
-
                     </button>
 
                     <h2>
-
                         <FaRobot />
-
                         Product Inspection Details
-
                     </h2>
 
                     <div className="modal-top">
@@ -88,17 +74,12 @@ function ProductModal({ product, onClose }) {
                             <div className="image-box">
 
                                 <h3>
-
                                     Original Image
-
                                 </h3>
 
                                 <img
-
-                                    src={`http://127.0.0.1:8000/${product.input_image}`}
-
+                                    src={originalImage}
                                     alt="Original"
-
                                 />
 
                             </div>
@@ -106,17 +87,12 @@ function ProductModal({ product, onClose }) {
                             <div className="image-box">
 
                                 <h3>
-
                                     AI Detection
-
                                 </h3>
 
                                 <img
-
-                                    src={`http://127.0.0.1:8000/${product.output_image}`}
-
+                                    src={detectedImage}
                                     alt="Detected"
-
                                 />
 
                             </div>
@@ -130,15 +106,11 @@ function ProductModal({ product, onClose }) {
                                 <FaBoxOpen />
 
                                 <span>
-
                                     Product
-
                                 </span>
 
                                 <b>
-
                                     {product.product_name}
-
                                 </b>
 
                             </div>
@@ -148,15 +120,11 @@ function ProductModal({ product, onClose }) {
                                 <FaIndustry />
 
                                 <span>
-
                                     Brand
-
                                 </span>
 
                                 <b>
-
                                     {product.brand}
-
                                 </b>
 
                             </div>
@@ -166,15 +134,11 @@ function ProductModal({ product, onClose }) {
                                 <FaTag />
 
                                 <span>
-
                                     Category
-
                                 </span>
 
                                 <b>
-
                                     {product.category}
-
                                 </b>
 
                             </div>
@@ -184,15 +148,11 @@ function ProductModal({ product, onClose }) {
                                 <FaCheckCircle />
 
                                 <span>
-
                                     Condition
-
                                 </span>
 
                                 <b>
-
                                     {product.condition}
-
                                 </b>
 
                             </div>
@@ -200,51 +160,32 @@ function ProductModal({ product, onClose }) {
                             <div className="score-box">
 
                                 <div className="score-title">
-
                                     Quality Score
-
                                 </div>
 
                                 <div className="score-bar">
 
                                     <div
-
                                         className="score-fill"
-
                                         style={{
-
                                             width: `${product.quality_score}%`
-
                                         }}
-
                                     />
 
                                 </div>
 
                                 <p>
-
                                     {product.quality_score}/100
-
                                 </p>
 
                             </div>
 
                             <button
-
                                 className="compare-btn"
-
-                                onClick={() =>
-
-                                    setCompareOpen(true)
-
-                                }
-
+                                onClick={() => setCompareOpen(true)}
                             >
-
                                 <FaImages />
-
                                 Compare Original & AI Detection
-
                             </button>
 
                         </div>
@@ -256,21 +197,15 @@ function ProductModal({ product, onClose }) {
                         <div className="modal-section">
 
                             <h3>
-
                                 <FaExclamationTriangle />
-
                                 Possible Defects
-
                             </h3>
 
                             {
-
                                 defects.length === 0 ?
 
                                     <p>
-
                                         No defects detected.
-
                                     </p>
 
                                     :
@@ -278,21 +213,16 @@ function ProductModal({ product, onClose }) {
                                     <ul>
 
                                         {
-
                                             defects.map((item, index) => (
 
                                                 <li key={index}>
-
                                                     {item}
-
                                                 </li>
 
                                             ))
-
                                         }
 
                                     </ul>
-
                             }
 
                         </div>
@@ -300,17 +230,12 @@ function ProductModal({ product, onClose }) {
                         <div className="modal-section">
 
                             <h3>
-
                                 <FaStar />
-
                                 Recommendation
-
                             </h3>
 
                             <p>
-
                                 {product.recommendation}
-
                             </p>
 
                         </div>
@@ -318,17 +243,12 @@ function ProductModal({ product, onClose }) {
                         <div className="modal-section">
 
                             <h3>
-
                                 <FaRobot />
-
                                 AI Summary
-
                             </h3>
 
                             <p>
-
                                 {product.summary}
-
                             </p>
 
                         </div>
@@ -338,21 +258,13 @@ function ProductModal({ product, onClose }) {
                     <div className="modal-footer">
 
                         <a
-
-                            href={`http://127.0.0.1:8000/${product.pdf_report}`}
-
+                            href={pdfUrl}
                             target="_blank"
-
                             rel="noreferrer"
-
                             className="download-btn"
-
                         >
-
                             <FaDownload />
-
                             Download PDF Report
-
                         </a>
 
                     </div>
@@ -360,11 +272,8 @@ function ProductModal({ product, onClose }) {
                 </div>
 
             </div>
-
         </>
-
     );
-
 }
 
 export default ProductModal;
