@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 import api from "../services/api";
 
@@ -20,6 +20,8 @@ function Register() {
 
     });
 
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (e) => {
 
         setForm({
@@ -36,16 +38,27 @@ function Register() {
 
         e.preventDefault();
 
+        setLoading(true);
+
         try {
 
-            await api.post(
+            const response = await api.post(
                 "/register",
                 form
             );
 
-            toast.success(
-                "Registration Successful"
-            );
+            await Swal.fire({
+
+                icon: "success",
+
+                title: "Registration Successful",
+
+                text: response.data?.message ||
+                    "Your account has been created successfully.",
+
+                confirmButtonColor: "#2563eb"
+
+            });
 
             navigate("/");
 
@@ -53,21 +66,56 @@ function Register() {
 
         catch (error) {
 
-            console.error(
+            console.log(
                 "Registration Error:",
                 error
             );
+
+            const status = error.response?.status;
 
             const message =
                 error.response?.data?.detail ||
                 "Registration Failed";
 
-            toast.error(
-                message,
-                {
-                    duration: 5000
-                }
-            );
+            if (status === 400) {
+
+                await Swal.fire({
+
+                    icon: "error",
+
+                    title: "Email Already Registered",
+
+                    text: "This email is already registered. Please login instead.",
+
+                    confirmButtonText: "Go to Login",
+
+                    confirmButtonColor: "#2563eb"
+
+                });
+
+            }
+
+            else {
+
+                await Swal.fire({
+
+                    icon: "error",
+
+                    title: "Registration Failed",
+
+                    text: message,
+
+                    confirmButtonColor: "#2563eb"
+
+                });
+
+            }
+
+        }
+
+        finally {
+
+            setLoading(false);
 
         }
 
@@ -101,7 +149,9 @@ function Register() {
                         marginBottom: "30px"
                     }}
                 >
+
                     Create Account
+
                 </h1>
 
                 <input
@@ -116,7 +166,8 @@ function Register() {
                         padding: "15px",
                         marginBottom: "20px",
                         borderRadius: "10px",
-                        border: "1px solid #ddd"
+                        border: "1px solid #ddd",
+                        boxSizing: "border-box"
                     }}
                 />
 
@@ -132,7 +183,8 @@ function Register() {
                         padding: "15px",
                         marginBottom: "20px",
                         borderRadius: "10px",
-                        border: "1px solid #ddd"
+                        border: "1px solid #ddd",
+                        boxSizing: "border-box"
                     }}
                 />
 
@@ -148,24 +200,35 @@ function Register() {
                         padding: "15px",
                         marginBottom: "25px",
                         borderRadius: "10px",
-                        border: "1px solid #ddd"
+                        border: "1px solid #ddd",
+                        boxSizing: "border-box"
                     }}
                 />
 
                 <button
                     type="submit"
+                    disabled={loading}
                     style={{
                         width: "100%",
                         padding: "15px",
-                        background: "#2563eb",
+                        background: loading
+                            ? "#93c5fd"
+                            : "#2563eb",
                         color: "white",
                         border: "none",
                         borderRadius: "10px",
                         fontSize: "16px",
-                        cursor: "pointer"
+                        cursor: loading
+                            ? "not-allowed"
+                            : "pointer"
                     }}
                 >
-                    Register
+
+                    {loading
+                        ? "Registering..."
+                        : "Register"
+                    }
+
                 </button>
 
                 <p
@@ -174,10 +237,13 @@ function Register() {
                         textAlign: "center"
                     }}
                 >
+
                     Already have an account?{" "}
 
                     <Link to="/">
+
                         Login
+
                     </Link>
 
                 </p>
