@@ -144,7 +144,7 @@ function ProductTable({ products, refreshData }) {
 
                                             <img
 
-                                                src={`http://127.0.0.1:8000/${item.output_image}`}
+                                                src={`https://industrial-ai-product-intelligence-production.up.railway.app/${item.output_image}`}
 
                                                 alt="product"
 
@@ -154,7 +154,7 @@ function ProductTable({ products, refreshData }) {
 
                                                     setPreviewImage(
 
-                                                        `http://127.0.0.1:8000/${item.output_image}`
+                                                        `https://industrial-ai-product-intelligence-production.up.railway.app/${item.output_image}`
 
                                                     )
 
