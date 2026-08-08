@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import {
     FaEnvelope,
     FaLock,
@@ -15,93 +16,98 @@ import api from "../services/api";
 import "../styles/Login.css";
 
 function Login() {
+
     console.log("Login Component Loaded");
 
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
-
         email: "",
-
         password: ""
-
     });
+
     const [showPassword, setShowPassword] = useState(false);
+
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
 
         setForm({
-
             ...form,
-
             [e.target.name]: e.target.value
-
         });
 
     };
 
     const handleLogin = async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    setLoading(true);
+        setLoading(true);
 
-    try {
+        try {
 
-        const response = await api.post(
+            const response = await api.post(
+                "/login",
+                form
+            );
 
-            "/login",
+            localStorage.setItem(
+                "token",
+                response.data.access_token
+            );
 
-            form
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.user)
+            );
 
-        );
+            toast.success(
+                "Login Successful"
+            );
 
-        localStorage.setItem(
+            navigate("/dashboard");
 
-            "token",
+        }
+        /*-------------------*/
 
-            response.data.access_token
+        catch (error) {
 
-        );
+            if (error.response?.status === 404) {
 
-        localStorage.setItem(
+                toast.error(
+                    "User not found. Please register first."
+                );
 
-            "user",
+            }
 
-            JSON.stringify(response.data.user)
+            else if (error.response?.status === 401) {
 
-        );
+                toast.error(
+                    "Invalid password. Please try again."
+                );
 
-        toast.success(
+            }
 
-            "Login Successful"
+            else {
 
-        );
+                toast.error(
+                    error.response?.data?.detail ||
+                    "Login Failed"
+                );
 
-        navigate("/dashboard");
+            }
 
-    }
+        }
 
-    catch (error) {
+        finally {
 
-        toast.error(
+            setLoading(false);
 
-            error.response?.data?.detail ||
+        }
 
-            "Login Failed"
+    };
 
-        );
-
-    }
-
-    finally {
-
-        setLoading(false);
-
-    }
-
-};
     return (
 
         <div className="login-page">
@@ -117,15 +123,11 @@ function Login() {
                     </div>
 
                     <h1>
-
                         Industrial AI
-
                     </h1>
 
                     <p>
-
                         AI Powered Product Intelligence Platform
-
                     </p>
 
                 </div>
@@ -133,55 +135,39 @@ function Login() {
                 <div className="hero-content">
 
                     <h2>
-
                         Smart Manufacturing
-
                     </h2>
 
                     <h2>
-
                         Quality Inspection
-
                     </h2>
 
                     <h2>
-
                         Using Artificial Intelligence
-
                     </h2>
 
                     <p>
-
                         Detect products using YOLO, generate intelligent
                         inspection reports using Gemini AI and automate
                         industrial quality assurance.
-
                     </p>
 
                     <div className="feature-list">
 
                         <div>
-
                             ✅ AI Product Detection
-
                         </div>
 
                         <div>
-
                             ✅ Gemini AI Inspection
-
                         </div>
 
                         <div>
-
                             ✅ PDF Reports
-
                         </div>
 
                         <div>
-
                             ✅ Analytics Dashboard
-
                         </div>
 
                     </div>
@@ -193,23 +179,16 @@ function Login() {
             <div className="login-right">
 
                 <form
-
                     className="login-card"
-
                     onSubmit={handleLogin}
-
                 >
 
                     <h2>
-
                         Welcome Back
-
                     </h2>
 
                     <p>
-
                         Login to continue
-
                     </p>
 
                     <div className="input-group">
@@ -217,29 +196,26 @@ function Login() {
                         <FaEnvelope />
 
                         <input
-
                             type="email"
-
                             name="email"
-
                             placeholder="Email Address"
-
                             value={form.email}
-
                             onChange={handleChange}
-
                             required
-
                         />
 
                     </div>
 
-                   <div className="input-group">
+                    <div className="input-group">
 
                         <FaLock />
 
                         <input
-                            type={showPassword ? "text" : "password"}
+                            type={
+                                showPassword
+                                    ? "text"
+                                    : "password"
+                            }
                             name="password"
                             placeholder="Password"
                             value={form.password}
@@ -249,47 +225,45 @@ function Login() {
 
                         <span
                             className="password-toggle"
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() =>
+                                setShowPassword(!showPassword)
+                            }
                         >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+
+                            {
+                                showPassword
+                                    ? <FaEyeSlash />
+                                    : <FaEye />
+                            }
+
                         </span>
 
                     </div>
 
                     <button
+                        className="login-btn"
+                        disabled={loading}
+                        type="submit"
+                    >
 
-    className="login-btn"
+                        {
+                            loading
+                                ? "Signing In..."
+                                :
+                                <>
+                                    Login
+                                    <FaArrowRight />
+                                </>
+                        }
 
-    disabled={loading}
-
->
-
-    {
-
-        loading ?
-
-        "Signing In..." :
-
-        <>
-
-            Login
-
-            <FaArrowRight />
-
-        </>
-
-    }
-
-</button>
+                    </button>
 
                     <div className="register-link">
 
                         Don't have an account?
 
                         <Link to="/register">
-
                             Register
-
                         </Link>
 
                     </div>

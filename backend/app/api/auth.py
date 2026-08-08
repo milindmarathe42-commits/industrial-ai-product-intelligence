@@ -10,13 +10,16 @@ from app.database import get_db
 from app.models.user import User
 from app.models.user_schema import UserRegister, UserLogin
 
+
 router = APIRouter()
+
 
 SECRET_KEY = "industrial_ai_secret_key"
 
 ALGORITHM = "HS256"
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
+
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -110,13 +113,17 @@ def login(
         User.email == user.email
     ).first()
 
+
+    # User does not exist
     if not db_user:
 
         raise HTTPException(
-            status_code=401,
-            detail="Invalid Email or Password"
+            status_code=404,
+            detail="User not found. Please register first."
         )
 
+
+    # Password is incorrect
     if not verify_password(
         user.password,
         db_user.password
@@ -124,9 +131,11 @@ def login(
 
         raise HTTPException(
             status_code=401,
-            detail="Invalid Email or Password"
+            detail="Invalid password. Please try again."
         )
 
+
+    # Create login token
     token = create_access_token(
 
         {
@@ -134,6 +143,7 @@ def login(
         }
 
     )
+
 
     return {
 
