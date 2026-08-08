@@ -39,17 +39,12 @@ function Register() {
         try {
 
             await api.post(
-
                 "/register",
-
                 form
-
             );
 
             toast.success(
-
                 "Registration Successful"
-
             );
 
             navigate("/");
@@ -58,12 +53,20 @@ function Register() {
 
         catch (error) {
 
-            toast.error(
+            console.error(
+                "Registration Error:",
+                error
+            );
 
+            const message =
                 error.response?.data?.detail ||
+                "Registration Failed";
 
-                "Registration Failed"
-
+            toast.error(
+                message,
+                {
+                    duration: 5000
+                }
             );
 
         }
@@ -98,23 +101,16 @@ function Register() {
                         marginBottom: "30px"
                     }}
                 >
-
                     Create Account
-
                 </h1>
 
                 <input
-
                     type="text"
-
                     name="full_name"
-
                     placeholder="Full Name"
-
                     value={form.full_name}
-
                     onChange={handleChange}
-
+                    required
                     style={{
                         width: "100%",
                         padding: "15px",
@@ -122,21 +118,15 @@ function Register() {
                         borderRadius: "10px",
                         border: "1px solid #ddd"
                     }}
-
                 />
 
                 <input
-
                     type="email"
-
                     name="email"
-
                     placeholder="Email"
-
                     value={form.email}
-
                     onChange={handleChange}
-
+                    required
                     style={{
                         width: "100%",
                         padding: "15px",
@@ -144,21 +134,15 @@ function Register() {
                         borderRadius: "10px",
                         border: "1px solid #ddd"
                     }}
-
                 />
 
                 <input
-
                     type="password"
-
                     name="password"
-
                     placeholder="Password"
-
                     value={form.password}
-
                     onChange={handleChange}
-
+                    required
                     style={{
                         width: "100%",
                         padding: "15px",
@@ -166,11 +150,10 @@ function Register() {
                         borderRadius: "10px",
                         border: "1px solid #ddd"
                     }}
-
                 />
 
                 <button
-
+                    type="submit"
                     style={{
                         width: "100%",
                         padding: "15px",
@@ -181,11 +164,8 @@ function Register() {
                         fontSize: "16px",
                         cursor: "pointer"
                     }}
-
                 >
-
                     Register
-
                 </button>
 
                 <p
@@ -194,13 +174,10 @@ function Register() {
                         textAlign: "center"
                     }}
                 >
-
                     Already have an account?{" "}
 
                     <Link to="/">
-
                         Login
-
                     </Link>
 
                 </p>
