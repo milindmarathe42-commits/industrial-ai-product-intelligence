@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -10,20 +11,22 @@ import {
     FaEyeSlash
 } from "react-icons/fa";
 
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+
 import api from "../services/api";
 
 import "../styles/Login.css";
 
 function Login() {
 
-    console.log("Login Component Loaded");
-
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
+
         email: "",
+
         password: ""
+
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -33,8 +36,11 @@ function Login() {
     const handleChange = (e) => {
 
         setForm({
+
             ...form,
+
             [e.target.name]: e.target.value
+
         });
 
     };
@@ -62,39 +68,88 @@ function Login() {
                 JSON.stringify(response.data.user)
             );
 
-            toast.success(
-                "Login Successful"
-            );
+            await Swal.fire({
+
+                icon: "success",
+
+                title: "Login Successful",
+
+                text: "Welcome back!",
+
+                confirmButtonColor: "#2563eb",
+
+                timer: 1500,
+
+                showConfirmButton: false
+
+            });
 
             navigate("/dashboard");
 
         }
-        /*-------------------*/
 
         catch (error) {
 
-            if (error.response?.status === 404) {
+            console.log(
+                "Login Error:",
+                error
+            );
 
-                toast.error(
-                    "User not found. Please register first."
-                );
+            const status =
+                error.response?.status;
+
+            const message =
+                error.response?.data?.detail;
+
+            if (status === 404) {
+
+                await Swal.fire({
+
+                    icon: "error",
+
+                    title: "User Not Found",
+
+                    text: "No account exists with this email. Please register first.",
+
+                    confirmButtonText: "Go to Register",
+
+                    confirmButtonColor: "#2563eb"
+
+                });
 
             }
 
-            else if (error.response?.status === 401) {
+            else if (status === 401) {
 
-                toast.error(
-                    "Invalid password. Please try again."
-                );
+                await Swal.fire({
+
+                    icon: "error",
+
+                    title: "Invalid Password",
+
+                    text: "The password you entered is incorrect. Please try again.",
+
+                    confirmButtonColor: "#2563eb"
+
+                });
 
             }
 
             else {
 
-                toast.error(
-                    error.response?.data?.detail ||
-                    "Login Failed"
-                );
+                await Swal.fire({
+
+                    icon: "error",
+
+                    title: "Login Failed",
+
+                    text:
+                        message ||
+                        "Something went wrong. Please try again.",
+
+                    confirmButtonColor: "#2563eb"
+
+                });
 
             }
 
@@ -226,7 +281,9 @@ function Login() {
                         <span
                             className="password-toggle"
                             onClick={() =>
-                                setShowPassword(!showPassword)
+                                setShowPassword(
+                                    !showPassword
+                                )
                             }
                         >
 
@@ -248,7 +305,8 @@ function Login() {
 
                         {
                             loading
-                                ? "Signing In..."
+                                ?
+                                "Signing In..."
                                 :
                                 <>
                                     Login
