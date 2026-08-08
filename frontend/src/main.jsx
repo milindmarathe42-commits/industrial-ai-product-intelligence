@@ -15,6 +15,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Toaster
             position="top-right"
             reverseOrder={false}
+            containerStyle={{
+                zIndex: 999999
+            }}
+            toastOptions={{
+                duration: 4000,
+                style: {
+                    zIndex: 999999,
+                    fontSize: "16px"
+                }
+            }}
         />
 
         <App />
