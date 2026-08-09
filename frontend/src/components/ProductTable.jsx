@@ -16,17 +16,47 @@ import ImageViewer from "./ImageViewer";
 
 import "../styles/ProductTable.css";
 
+
 function ProductTable({ products, refreshData }) {
 
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const [previewImage, setPreviewImage] = useState(null);
 
+
+    // =========================================================
+    // IMAGE URL
+    // =========================================================
+
     const getImageUrl = (image) => {
 
-        return `https://industrial-ai-product-intelligence-production.up.railway.app/${image}`;
+        if (!image) {
+            return "";
+        }
 
+        // If backend already returns a complete URL
+        if (
+            image.startsWith("http://") ||
+            image.startsWith("https://")
+        ) {
+            return image;
+        }
+
+        const backendUrl =
+            api.defaults.baseURL.replace(/\/$/, "");
+
+        const imagePath =
+            image
+                .replace(/\\/g, "/")
+                .replace(/^\/+/, "");
+
+        return `${backendUrl}/${imagePath}`;
     };
+
+
+    // =========================================================
+    // DELETE PRODUCT
+    // =========================================================
 
     const deleteProduct = async (id) => {
 
@@ -34,7 +64,8 @@ function ProductTable({ products, refreshData }) {
 
             title: "Delete Product?",
 
-            text: "This inspection record will be permanently deleted.",
+            text:
+                "This inspection record will be permanently deleted.",
 
             icon: "warning",
 
@@ -52,11 +83,14 @@ function ProductTable({ products, refreshData }) {
 
         });
 
+
         if (!result.isConfirmed) return;
+
 
         try {
 
             await api.delete(`/products/${id}`);
+
 
             Swal.fire({
 
@@ -64,7 +98,8 @@ function ProductTable({ products, refreshData }) {
 
                 title: "Deleted!",
 
-                text: "Product deleted successfully.",
+                text:
+                    "Product deleted successfully.",
 
                 timer: 1800,
 
@@ -72,25 +107,43 @@ function ProductTable({ products, refreshData }) {
 
             });
 
+
             refreshData();
 
         }
+
 
         catch (error) {
 
             console.log(error);
 
+            Swal.fire({
+
+                icon: "error",
+
+                title: "Delete Failed",
+
+                text:
+                    "Unable to delete the product."
+
+            });
+
         }
 
     };
+
+
+    // =========================================================
+    // RENDER
+    // =========================================================
 
     return (
 
         <>
 
-            {/* ==========================================
+            {/* =================================================
                 DESKTOP / TABLET TABLE
-            ========================================== */}
+            ================================================= */}
 
             <div className="table-container">
 
@@ -116,156 +169,197 @@ function ProductTable({ products, refreshData }) {
 
                     </thead>
 
+
                     <tbody>
 
                         {
 
                             products.length === 0 ?
 
-                                <tr>
+                                (
 
-                                    <td
-                                        colSpan="6"
-                                        className="empty-table"
-                                    >
+                                    <tr>
 
-                                        No Inspection Records Found
+                                        <td
+                                            colSpan="6"
+                                            className="empty-table"
+                                        >
 
-                                    </td>
-
-                                </tr>
-
-                                :
-
-                                products.map((item) => (
-
-                                    <tr key={item.id}>
-
-                                        <td>
-
-                                            #{item.id}
-
-                                        </td>
-
-                                        <td>
-
-                                            <img
-
-                                                src={getImageUrl(
-                                                    item.output_image
-                                                )}
-
-                                                alt="product"
-
-                                                className="table-image"
-
-                                                onClick={() =>
-
-                                                    setPreviewImage(
-
-                                                        getImageUrl(
-                                                            item.output_image
-                                                        )
-
-                                                    )
-
-                                                }
-
-                                            />
-
-                                        </td>
-
-                                        <td>
-
-                                            <div className="product-cell">
-
-                                                <FaBoxOpen />
-
-                                                {item.product_name}
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-
-                                            <span
-
-                                                className={
-                                                    `status-badge ${item.condition.toLowerCase()}`
-                                                }
-
-                                            >
-
-                                                {item.condition}
-
-                                            </span>
-
-                                        </td>
-
-                                        <td>
-
-                                            <div className="quality-cell">
-
-                                                <FaStar />
-
-                                                {item.quality_score}%
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-
-                                            <div className="table-actions">
-
-                                                <button
-
-                                                    className="view-btn"
-
-                                                    onClick={() =>
-
-                                                        setSelectedProduct(
-                                                            item
-                                                        )
-
-                                                    }
-
-                                                >
-
-                                                    <FaEye />
-
-                                                    View
-
-                                                </button>
-
-                                                <button
-
-                                                    className="delete-btn"
-
-                                                    onClick={() =>
-
-                                                        deleteProduct(
-                                                            item.id
-                                                        )
-
-                                                    }
-
-                                                >
-
-                                                    <FaTrashAlt />
-
-                                                    Delete
-
-                                                </button>
-
-                                            </div>
+                                            No Inspection Records Found
 
                                         </td>
 
                                     </tr>
 
-                                ))
+                                )
+
+                                :
+
+                                (
+
+                                    products.map((item) => (
+
+                                        <tr key={item.id}>
+
+
+                                            {/* ID */}
+
+                                            <td>
+
+                                                #{item.id}
+
+                                            </td>
+
+
+                                            {/* IMAGE */}
+
+                                            <td>
+
+                                                <img
+
+                                                    src={
+                                                        getImageUrl(
+                                                            item.output_image
+                                                        )
+                                                    }
+
+                                                    alt="product"
+
+                                                    className="table-image"
+
+                                                    onClick={() =>
+
+                                                        setPreviewImage(
+
+                                                            getImageUrl(
+                                                                item.output_image
+                                                            )
+
+                                                        )
+
+                                                    }
+
+                                                />
+
+                                            </td>
+
+
+                                            {/* PRODUCT */}
+
+                                            <td>
+
+                                                <div className="product-cell">
+
+                                                    <FaBoxOpen />
+
+                                                    {item.product_name}
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* STATUS */}
+
+                                            <td>
+
+                                                <span
+
+                                                    className={
+                                                        `status-badge ${
+                                                            item.condition
+                                                                ? item.condition.toLowerCase()
+                                                                : "unknown"
+                                                        }`
+                                                    }
+
+                                                >
+
+                                                    {item.condition || "Unknown"}
+
+                                                </span>
+
+                                            </td>
+
+
+                                            {/* QUALITY */}
+
+                                            <td>
+
+                                                <div className="quality-cell">
+
+                                                    <FaStar />
+
+                                                    {item.quality_score || 0}%
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* ACTIONS */}
+
+                                            <td>
+
+                                                <div className="table-actions">
+
+
+                                                    {/* VIEW */}
+
+                                                    <button
+
+                                                        className="view-btn"
+
+                                                        onClick={() =>
+
+                                                            setSelectedProduct(
+                                                                item
+                                                            )
+
+                                                        }
+
+                                                    >
+
+                                                        <FaEye />
+
+                                                        View
+
+                                                    </button>
+
+
+                                                    {/* DELETE */}
+
+                                                    <button
+
+                                                        className="delete-btn"
+
+                                                        onClick={() =>
+
+                                                            deleteProduct(
+                                                                item.id
+                                                            )
+
+                                                        }
+
+                                                    >
+
+                                                        <FaTrashAlt />
+
+                                                        Delete
+
+                                                    </button>
+
+
+                                                </div>
+
+                                            </td>
+
+
+                                        </tr>
+
+                                    ))
+
+                                )
 
                         }
 
@@ -276,9 +370,9 @@ function ProductTable({ products, refreshData }) {
             </div>
 
 
-            {/* ==========================================
+            {/* =================================================
                 MOBILE INSPECTION CARDS
-            ========================================== */}
+            ================================================= */}
 
             <div className="mobile-product-list">
 
@@ -286,195 +380,225 @@ function ProductTable({ products, refreshData }) {
 
                     products.length === 0 ?
 
-                        <div className="mobile-empty">
+                        (
 
-                            No Inspection Records Found
+                            <div className="mobile-empty">
 
-                        </div>
+                                No Inspection Records Found
+
+                            </div>
+
+                        )
 
                         :
 
-                        products.map((item) => (
+                        (
 
-                            <div
-                                className="mobile-product-card"
-                                key={item.id}
-                            >
+                            products.map((item) => (
 
-                                {/* CARD HEADER */}
+                                <div
 
-                                <div className="mobile-card-header">
+                                    className="mobile-product-card"
 
-                                    <span className="mobile-product-id">
+                                    key={item.id}
 
-                                        #{item.id}
-
-                                    </span>
-
-                                    <div className="mobile-quality-top">
-
-                                        <FaStar />
-
-                                        {item.quality_score}%
-
-                                    </div>
-
-                                </div>
+                                >
 
 
-                                {/* IMAGE */}
+                                    {/* CARD HEADER */}
 
-                                <div className="mobile-image-wrapper">
+                                    <div className="mobile-card-header">
 
-                                    <img
+                                        <span className="mobile-product-id">
 
-                                        src={getImageUrl(
-                                            item.output_image
-                                        )}
-
-                                        alt="product"
-
-                                        className="mobile-product-image"
-
-                                        onClick={() =>
-
-                                            setPreviewImage(
-
-                                                getImageUrl(
-                                                    item.output_image
-                                                )
-
-                                            )
-
-                                        }
-
-                                    />
-
-                                </div>
-
-
-                                {/* PRODUCT NAME */}
-
-                                <div className="mobile-product-name">
-
-                                    <FaBoxOpen />
-
-                                    <span>
-
-                                        {item.product_name}
-
-                                    </span>
-
-                                </div>
-
-
-                                {/* DETAILS */}
-
-                                <div className="mobile-product-details">
-
-                                    <div className="mobile-detail-row">
-
-                                        <span>
-
-                                            Status
+                                            #{item.id}
 
                                         </span>
 
-                                        <span
 
-                                            className={
-                                                `status-badge ${item.condition.toLowerCase()}`
+                                        <div className="mobile-quality-top">
+
+                                            <FaStar />
+
+                                            {item.quality_score || 0}%
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {/* IMAGE */}
+
+                                    <div className="mobile-image-wrapper">
+
+                                        <img
+
+                                            src={
+                                                getImageUrl(
+                                                    item.output_image
+                                                )
+                                            }
+
+                                            alt="product"
+
+                                            className="mobile-product-image"
+
+                                            onClick={() =>
+
+                                                setPreviewImage(
+
+                                                    getImageUrl(
+                                                        item.output_image
+                                                    )
+
+                                                )
+
+                                            }
+
+                                        />
+
+                                    </div>
+
+
+                                    {/* PRODUCT NAME */}
+
+                                    <div className="mobile-product-name">
+
+                                        <FaBoxOpen />
+
+                                        <span>
+
+                                            {item.product_name}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    {/* DETAILS */}
+
+                                    <div className="mobile-product-details">
+
+
+                                        <div className="mobile-detail-row">
+
+                                            <span>
+
+                                                Status
+
+                                            </span>
+
+
+                                            <span
+
+                                                className={
+                                                    `status-badge ${
+                                                        item.condition
+                                                            ? item.condition.toLowerCase()
+                                                            : "unknown"
+                                                    }`
+                                                }
+
+                                            >
+
+                                                {item.condition || "Unknown"}
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <div className="mobile-detail-row">
+
+                                            <span>
+
+                                                Quality
+
+                                            </span>
+
+
+                                            <span className="mobile-quality">
+
+                                                <FaStar />
+
+                                                {item.quality_score || 0}%
+
+                                            </span>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    {/* ACTIONS */}
+
+                                    <div className="mobile-card-actions">
+
+
+                                        {/* VIEW */}
+
+                                        <button
+
+                                            className="view-btn"
+
+                                            onClick={() =>
+
+                                                setSelectedProduct(
+                                                    item
+                                                )
+
                                             }
 
                                         >
 
-                                            {item.condition}
+                                            <FaEye />
 
-                                        </span>
+                                            View
+
+                                        </button>
+
+
+                                        {/* DELETE */}
+
+                                        <button
+
+                                            className="delete-btn"
+
+                                            onClick={() =>
+
+                                                deleteProduct(
+                                                    item.id
+                                                )
+
+                                            }
+
+                                        >
+
+                                            <FaTrashAlt />
+
+                                            Delete
+
+                                        </button>
+
 
                                     </div>
 
 
-                                    <div className="mobile-detail-row">
-
-                                        <span>
-
-                                            Quality
-
-                                        </span>
-
-                                        <span className="mobile-quality">
-
-                                            <FaStar />
-
-                                            {item.quality_score}%
-
-                                        </span>
-
-                                    </div>
-
                                 </div>
 
+                            ))
 
-                                {/* ACTIONS */}
-
-                                <div className="mobile-card-actions">
-
-                                    <button
-
-                                        className="view-btn"
-
-                                        onClick={() =>
-
-                                            setSelectedProduct(
-                                                item
-                                            )
-
-                                        }
-
-                                    >
-
-                                        <FaEye />
-
-                                        View
-
-                                    </button>
-
-
-                                    <button
-
-                                        className="delete-btn"
-
-                                        onClick={() =>
-
-                                            deleteProduct(
-                                                item.id
-                                            )
-
-                                        }
-
-                                    >
-
-                                        <FaTrashAlt />
-
-                                        Delete
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        ))
+                        )
 
                 }
 
             </div>
 
 
-            {/* ==========================================
+            {/* =================================================
                 PRODUCT MODAL
-            ========================================== */}
+            ================================================= */}
 
             {
 
@@ -495,9 +619,9 @@ function ProductTable({ products, refreshData }) {
             }
 
 
-            {/* ==========================================
+            {/* =================================================
                 IMAGE VIEWER
-            ========================================== */}
+            ================================================= */}
 
             {
 
@@ -522,5 +646,6 @@ function ProductTable({ products, refreshData }) {
     );
 
 }
+
 
 export default ProductTable;

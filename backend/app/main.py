@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from sqlalchemy import inspect, text
+
 from app.database import Base, engine
 
 from app.api.upload import router as upload_router
@@ -15,6 +17,28 @@ from app.api.auth import router as auth_router
 # =========================================================
 
 Base.metadata.create_all(bind=engine)
+
+
+# =========================================================
+# DATABASE MIGRATION
+# =========================================================
+
+inspector = inspect(engine)
+
+product_columns = [
+    column["name"]
+    for column in inspector.get_columns("products")
+]
+
+if "user_id" not in product_columns:
+
+    with engine.begin() as connection:
+
+        connection.execute(
+            text(
+                "ALTER TABLE products ADD COLUMN user_id INTEGER"
+            )
+        )
 
 
 # =========================================================
@@ -34,7 +58,6 @@ ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
-
 
 app.add_middleware(
     CORSMiddleware,

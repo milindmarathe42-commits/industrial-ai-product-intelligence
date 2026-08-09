@@ -9,6 +9,9 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
+    # User who uploaded the product
+    user_id = Column(Integer, nullable=True, index=True)
+
     filename = Column(String)
 
     # Original Uploaded Image
