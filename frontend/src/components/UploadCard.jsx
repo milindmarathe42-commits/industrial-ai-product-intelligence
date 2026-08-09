@@ -24,6 +24,7 @@ function UploadCard({ refreshData, setResult }) {
 
     const [loading, setLoading] = useState(false);
 
+
     const handleImage = (e) => {
 
         const file = e.target.files[0];
@@ -36,132 +37,287 @@ function UploadCard({ refreshData, setResult }) {
 
     };
 
-const handleUpload = async () => {
 
-    console.log("================================");
-    console.log("ANALYZE BUTTON CLICKED");
-    console.log("Selected image:", selectedImage);
-    console.log("Image name:", selectedImage?.name);
-    console.log("Image size:", selectedImage?.size);
-    console.log("Image type:", selectedImage?.type);
-    console.log("================================");
+    // Convert and resize image before uploading
+    const compressImage = (file) => {
 
-    if (!selectedImage) {
+        return new Promise((resolve, reject) => {
 
-        toast.error("Please select an image.");
+            const reader = new FileReader();
 
-        return;
+            reader.onload = (event) => {
 
-    }
+                const img = new Image();
 
-    const formData = new FormData();
+                img.onload = () => {
 
-    formData.append("file", selectedImage);
+                    const maxWidth = 1600;
+                    const maxHeight = 1600;
 
-    setLoading(true);
+                    let width = img.width;
+                    let height = img.height;
 
-    console.log("UPLOAD REQUEST STARTING...");
 
-    try {
+                    if (width > maxWidth) {
 
-        const response = await api.post(
-            "/upload",
-            formData,
-            {
-                timeout: 180000
+                        height =
+                            (height * maxWidth) / width;
+
+                        width = maxWidth;
+
+                    }
+
+
+                    if (height > maxHeight) {
+
+                        width =
+                            (width * maxHeight) / height;
+
+                        height = maxHeight;
+
+                    }
+
+
+                    const canvas =
+                        document.createElement("canvas");
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+
+                    const ctx =
+                        canvas.getContext("2d");
+
+                    ctx.drawImage(
+                        img,
+                        0,
+                        0,
+                        width,
+                        height
+                    );
+
+
+                    canvas.toBlob(
+
+                        (blob) => {
+
+                            if (!blob) {
+
+                                reject(
+                                    new Error(
+                                        "Image compression failed"
+                                    )
+                                );
+
+                                return;
+
+                            }
+
+
+                            const compressedFile =
+                                new File(
+                                    [blob],
+                                    "product-image.jpg",
+                                    {
+                                        type: "image/jpeg"
+                                    }
+                                );
+
+
+                            resolve(compressedFile);
+
+                        },
+
+                        "image/jpeg",
+
+                        0.80
+
+                    );
+
+                };
+
+
+                img.onerror = () => {
+
+                    reject(
+                        new Error(
+                            "Unable to process image"
+                        )
+                    );
+
+                };
+
+
+                img.src = event.target.result;
+
+            };
+
+
+            reader.onerror = () => {
+
+                reject(
+                    new Error(
+                        "Unable to read image"
+                    )
+                );
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        });
+
+    };
+
+
+    const handleUpload = async () => {
+
+        if (!selectedImage) {
+
+            toast.error(
+                "Please select an image."
+            );
+
+            return;
+
+        }
+
+
+        setLoading(true);
+
+
+        try {
+
+            console.log(
+                "Original image size:",
+                selectedImage.size
+            );
+
+
+            const compressedImage =
+                await compressImage(
+                    selectedImage
+                );
+
+
+            console.log(
+                "Compressed image size:",
+                compressedImage.size
+            );
+
+
+            const formData = new FormData();
+
+            formData.append(
+                "file",
+                compressedImage
+            );
+
+
+            console.log(
+                "Sending image to server..."
+            );
+
+
+            const response = await api.post(
+                "/upload",
+                formData,
+                {
+                    timeout: 180000
+                }
+            );
+
+
+            console.log(
+                "Server response:",
+                response.data
+            );
+
+
+            toast.success(
+                "Product analyzed successfully!"
+            );
+
+
+            setResult(response.data);
+
+            refreshData();
+
+        }
+
+        catch (err) {
+
+            console.error(
+                "Upload error:",
+                err
+            );
+
+
+            if (
+                err.code === "ECONNABORTED"
+            ) {
+
+                toast.error(
+                    "Analysis timed out. Please try again."
+                );
+
             }
-        );
 
-        console.log("UPLOAD RESPONSE RECEIVED");
-        console.log("Status:", response.status);
-        console.log("Response:", response.data);
+            else if (
+                err.response
+            ) {
 
-        toast.success(
-            "Product analyzed successfully!"
-        );
+                toast.error(
+                    err.response.data?.detail ||
+                    "Server error during analysis."
+                );
 
-        setResult(response.data);
+            }
 
-        refreshData();
+            else {
 
-    }
+                toast.error(
+                    "Unable to connect to server."
+                );
 
-    catch (err) {
-
-        console.log("================================");
-        console.log("UPLOAD ERROR");
-        console.log("Message:", err.message);
-        console.log("Code:", err.code);
-        console.log("Response:", err.response?.data);
-        console.log("Status:", err.response?.status);
-        console.log("================================");
-
-        if (err.code === "ECONNABORTED") {
-
-            toast.error(
-                "Analysis timed out. Please try again."
-            );
+            }
 
         }
 
-        else if (err.response) {
+        finally {
 
-            toast.error(
-                err.response.data?.detail ||
-                "Server error during analysis."
-            );
+            setLoading(false);
 
         }
 
-        else {
+    };
 
-            toast.error(
-                "Unable to connect to server."
-            );
-
-        }
-
-    }
-
-    finally {
-
-        console.log("UPLOAD PROCESS FINISHED");
-
-        setLoading(false);
-
-    }
-
-};
 
     return (
 
         <>
 
             {
-
                 loading &&
-
                 <AnalysisLoader />
-
             }
+
 
             <div className="upload-card">
 
                 <div className="upload-header">
 
                     <h2>
-
                         AI Product Inspection
-
                     </h2>
 
                     <p>
-
                         Upload a product image to begin intelligent inspection
-
                     </p>
 
                 </div>
+
 
                 <div className="upload-area">
 
@@ -172,14 +328,11 @@ const handleUpload = async () => {
                         <div className="preview-wrapper">
 
                             <img
-
                                 src={preview}
-
                                 alt="preview"
-
                                 className="preview-image"
-
                             />
+
 
                             <div className="image-info">
 
@@ -188,12 +341,11 @@ const handleUpload = async () => {
                                     <FaFileImage />
 
                                     <span>
-
                                         {selectedImage.name}
-
                                     </span>
 
                                 </div>
+
 
                                 <div>
 
@@ -201,7 +353,14 @@ const handleUpload = async () => {
 
                                     <span>
 
-                                        {(selectedImage.size / 1024).toFixed(1)} KB
+                                        {
+                                            (
+                                                selectedImage.size /
+                                                1024
+                                            ).toFixed(1)
+                                        }
+
+                                        KB
 
                                     </span>
 
@@ -216,9 +375,7 @@ const handleUpload = async () => {
                         <>
 
                             <FaCloudUploadAlt
-
                                 className="upload-icon"
-
                             />
 
                             <h3 className="upload-text">
@@ -237,26 +394,19 @@ const handleUpload = async () => {
 
                     }
 
+
                     <input
-
                         type="file"
-
                         id="fileUpload"
-
                         hidden
-
                         accept="image/*"
-
                         onChange={handleImage}
-
                     />
 
+
                     <label
-
                         htmlFor="fileUpload"
-
                         className="choose-btn"
-
                     >
 
                         <FaImage />
@@ -267,14 +417,11 @@ const handleUpload = async () => {
 
                 </div>
 
+
                 <button
-
                     className="upload-btn"
-
                     onClick={handleUpload}
-
                     disabled={loading}
-
                 >
 
                     {
