@@ -1,3 +1,7 @@
+/* ==========================================
+   MAIN TABLE CONTAINER
+========================================== */
+
 .table-container{
 
     width:92%;
@@ -80,6 +84,11 @@ tbody tr:hover{
 
 }
 
+
+/* ==========================================
+   TABLE IMAGE
+========================================== */
+
 .table-image{
 
     width:90px;
@@ -108,6 +117,11 @@ tbody tr:hover{
 
 }
 
+
+/* ==========================================
+   PRODUCT
+========================================== */
+
 .product-cell{
 
     display:flex;
@@ -131,6 +145,11 @@ tbody tr:hover{
     font-size:20px;
 
 }
+
+
+/* ==========================================
+   STATUS
+========================================== */
 
 .status-badge{
 
@@ -186,6 +205,11 @@ tbody tr:hover{
 
 }
 
+
+/* ==========================================
+   QUALITY
+========================================== */
+
 .quality-cell{
 
     display:flex;
@@ -210,6 +234,11 @@ tbody tr:hover{
 
 }
 
+
+/* ==========================================
+   TABLE ACTIONS
+========================================== */
+
 .table-actions{
 
     display:flex;
@@ -226,6 +255,8 @@ tbody tr:hover{
     display:flex;
 
     align-items:center;
+
+    justify-content:center;
 
     gap:8px;
 
@@ -275,6 +306,11 @@ tbody tr:hover{
 
 }
 
+
+/* ==========================================
+   EMPTY TABLE
+========================================== */
+
 .empty-table{
 
     padding:45px;
@@ -284,6 +320,18 @@ tbody tr:hover{
     font-size:18px;
 
     font-weight:600;
+
+}
+
+
+/* ==========================================
+   MOBILE CARDS
+   Hidden on desktop
+========================================== */
+
+.mobile-product-list{
+
+    display:none;
 
 }
 
@@ -317,106 +365,304 @@ tbody tr:hover{
 
 @media(max-width:768px){
 
+    /* Hide desktop table */
+
     .table-container{
+
+        display:none;
+
+    }
+
+
+    /* Show mobile cards */
+
+    .mobile-product-list{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:20px;
 
         width:92%;
 
         margin:20px auto 40px;
 
-        border-radius:20px;
+    }
 
-        overflow-x:auto;
 
-        overflow-y:hidden;
+    /* CARD */
+
+    .mobile-product-card{
+
+        background:white;
+
+        border-radius:24px;
+
+        padding:20px;
+
+        box-shadow:0 15px 40px rgba(15,23,42,.10);
+
+        border:1px solid #eef2ff;
+
+        overflow:hidden;
 
     }
 
-    table{
 
-        min-width:700px;
+    /* HEADER */
 
-    }
+    .mobile-card-header{
 
-    th{
+        display:flex;
 
-        padding:14px 12px;
+        justify-content:space-between;
 
-        font-size:12px;
+        align-items:center;
 
-    }
-
-    td{
-
-        padding:12px;
-
-        font-size:13px;
+        margin-bottom:18px;
 
     }
 
-    .table-image{
 
-        width:60px;
+    .mobile-product-id{
 
-        height:60px;
+        font-size:15px;
+
+        font-weight:800;
+
+        color:#64748B;
 
     }
 
-    .product-cell{
+
+    .mobile-quality-top{
+
+        display:flex;
+
+        align-items:center;
 
         gap:6px;
 
-        font-size:13px;
+        background:#EFF6FF;
+
+        color:#2563EB;
+
+        padding:8px 12px;
+
+        border-radius:20px;
+
+        font-size:14px;
+
+        font-weight:800;
 
     }
 
-    .product-cell svg{
+
+    .mobile-quality-top svg{
+
+        color:#F59E0B;
+
+    }
+
+
+    /* IMAGE */
+
+    .mobile-image-wrapper{
+
+        width:100%;
+
+        height:210px;
+
+        border-radius:18px;
+
+        overflow:hidden;
+
+        background:#F8FAFC;
+
+        border:1px solid #E2E8F0;
+
+        margin-bottom:18px;
+
+    }
+
+
+    .mobile-product-image{
+
+        width:100%;
+
+        height:100%;
+
+        object-fit:cover;
+
+        cursor:pointer;
+
+        transition:.35s;
+
+    }
+
+
+    .mobile-product-image:hover{
+
+        transform:scale(1.04);
+
+    }
+
+
+    /* PRODUCT NAME */
+
+    .mobile-product-name{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+        color:#0F172A;
+
+        font-size:19px;
+
+        font-weight:800;
+
+        padding-bottom:18px;
+
+        border-bottom:1px solid #E2E8F0;
+
+    }
+
+
+    .mobile-product-name svg{
+
+        color:#2563EB;
+
+        font-size:20px;
+
+    }
+
+
+    /* DETAILS */
+
+    .mobile-product-details{
+
+        padding:15px 0;
+
+    }
+
+
+    .mobile-detail-row{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+        padding:10px 0;
+
+        color:#64748B;
+
+        font-size:14px;
+
+        font-weight:600;
+
+    }
+
+
+    .mobile-detail-row > span:first-child{
+
+        color:#64748B;
+
+    }
+
+
+    /* MOBILE QUALITY */
+
+    .mobile-quality{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:6px;
+
+        color:#2563EB;
 
         font-size:16px;
 
-    }
-
-    .status-badge{
-
-        min-width:85px;
-
-        padding:7px 12px;
-
-        font-size:12px;
+        font-weight:800;
 
     }
 
-    .quality-cell{
 
-        gap:5px;
+    .mobile-quality svg{
+
+        color:#F59E0B;
+
+    }
+
+
+    /* ACTIONS */
+
+    .mobile-card-actions{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+        gap:12px;
+
+        padding-top:10px;
+
+    }
+
+
+    .mobile-card-actions .view-btn,
+    .mobile-card-actions .delete-btn{
+
+        width:100%;
+
+        padding:12px;
+
+        border-radius:12px;
 
         font-size:14px;
 
     }
 
-    .table-actions{
 
-        gap:7px;
+    /* STATUS */
 
-    }
+    .mobile-product-card .status-badge{
 
-    .view-btn,
-    .delete-btn{
+        min-width:90px;
 
-        padding:7px 11px;
+        padding:8px 14px;
 
-        font-size:12px;
-
-        border-radius:9px;
-
-        gap:5px;
+        font-size:13px;
 
     }
 
-    .empty-table{
 
-        padding:35px 20px;
+    /* EMPTY */
 
-        font-size:15px;
+    .mobile-empty{
+
+        background:white;
+
+        border-radius:20px;
+
+        padding:40px 20px;
+
+        text-align:center;
+
+        color:#94A3B8;
+
+        font-size:16px;
+
+        font-weight:700;
+
+        box-shadow:0 15px 40px rgba(15,23,42,.08);
 
     }
 
@@ -429,62 +675,53 @@ tbody tr:hover{
 
 @media(max-width:480px){
 
-    .table-container{
+    .mobile-product-list{
 
-        width:94%;
+        width:92%;
 
-        border-radius:18px;
-
-    }
-
-    table{
-
-        min-width:650px;
+        gap:16px;
 
     }
 
-    th{
 
-        padding:12px 10px;
+    .mobile-product-card{
 
-        font-size:11px;
+        padding:16px;
 
-    }
-
-    td{
-
-        padding:10px;
-
-        font-size:12px;
+        border-radius:20px;
 
     }
 
-    .table-image{
 
-        width:55px;
+    .mobile-image-wrapper{
 
-        height:55px;
+        height:190px;
 
-        border-radius:9px;
-
-    }
-
-    .status-badge{
-
-        min-width:75px;
-
-        padding:6px 10px;
-
-        font-size:11px;
+        border-radius:15px;
 
     }
 
-    .view-btn,
-    .delete-btn{
 
-        padding:6px 9px;
+    .mobile-product-name{
 
-        font-size:11px;
+        font-size:17px;
+
+    }
+
+
+    .mobile-detail-row{
+
+        font-size:13px;
+
+    }
+
+
+    .mobile-card-actions .view-btn,
+    .mobile-card-actions .delete-btn{
+
+        padding:11px 8px;
+
+        font-size:13px;
 
     }
 
