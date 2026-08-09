@@ -37,6 +37,7 @@ function UploadCard({ refreshData, setResult }) {
     };
 
     const handleUpload = async () => {
+        console.log("ANALYZE BUTTON CLICKED");
 
         if (!selectedImage) {
 
