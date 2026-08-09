@@ -131,6 +131,7 @@ tbody tr:hover{
     font-size:20px;
 
 }
+
 .status-badge{
 
     display:inline-flex;
@@ -286,44 +287,204 @@ tbody tr:hover{
 
 }
 
+
+/* ==========================================
+   TABLET
+========================================== */
+
 @media(max-width:1000px){
 
     .table-container{
 
         overflow-x:auto;
 
+        -webkit-overflow-scrolling:touch;
+
     }
 
     table{
 
-        min-width:900px;
+        min-width:800px;
 
     }
 
 }
 
+
+/* ==========================================
+   MOBILE
+========================================== */
+
 @media(max-width:768px){
 
-    .table-image{
+    .table-container{
 
-        width:70px;
+        width:92%;
 
-        height:70px;
+        margin:20px auto 40px;
+
+        border-radius:20px;
+
+        overflow-x:auto;
+
+        overflow-y:hidden;
+
+    }
+
+    table{
+
+        min-width:700px;
+
+    }
+
+    th{
+
+        padding:14px 12px;
+
+        font-size:12px;
 
     }
 
     td{
 
-        padding:15px;
+        padding:12px;
+
+        font-size:13px;
+
+    }
+
+    .table-image{
+
+        width:60px;
+
+        height:60px;
+
+    }
+
+    .product-cell{
+
+        gap:6px;
+
+        font-size:13px;
+
+    }
+
+    .product-cell svg{
+
+        font-size:16px;
+
+    }
+
+    .status-badge{
+
+        min-width:85px;
+
+        padding:7px 12px;
+
+        font-size:12px;
+
+    }
+
+    .quality-cell{
+
+        gap:5px;
+
+        font-size:14px;
+
+    }
+
+    .table-actions{
+
+        gap:7px;
 
     }
 
     .view-btn,
     .delete-btn{
 
-        padding:8px 14px;
+        padding:7px 11px;
 
-        font-size:13px;
+        font-size:12px;
+
+        border-radius:9px;
+
+        gap:5px;
+
+    }
+
+    .empty-table{
+
+        padding:35px 20px;
+
+        font-size:15px;
+
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media(max-width:480px){
+
+    .table-container{
+
+        width:94%;
+
+        border-radius:18px;
+
+    }
+
+    table{
+
+        min-width:650px;
+
+    }
+
+    th{
+
+        padding:12px 10px;
+
+        font-size:11px;
+
+    }
+
+    td{
+
+        padding:10px;
+
+        font-size:12px;
+
+    }
+
+    .table-image{
+
+        width:55px;
+
+        height:55px;
+
+        border-radius:9px;
+
+    }
+
+    .status-badge{
+
+        min-width:75px;
+
+        padding:6px 10px;
+
+        font-size:11px;
+
+    }
+
+    .view-btn,
+    .delete-btn{
+
+        padding:6px 9px;
+
+        font-size:11px;
 
     }
 
