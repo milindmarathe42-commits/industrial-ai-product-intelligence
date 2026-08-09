@@ -16,7 +16,7 @@
 
     top:0;
 
-    z-index:999;
+    z-index:9999;
 
     box-sizing:border-box;
 
@@ -30,7 +30,16 @@
 
     box-shadow:0 10px 35px rgba(0,0,0,.18);
 
+    transition:all .35s ease;
+
+    animation:navbarSlide .8s ease;
+
 }
+
+
+/* =======================================
+LOGO
+======================================= */
 
 .logo{
 
@@ -39,6 +48,8 @@
     align-items:center;
 
     gap:16px;
+
+    cursor:pointer;
 
 }
 
@@ -58,291 +69,18 @@
 
     font-size:30px;
 
-    background:linear-gradient(135deg,#2563EB,#38BDF8);
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #38BDF8
+    );
 
-    box-shadow:0 10px 25px rgba(37,99,235,.35);
+    color:white;
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,.35);
 
     transition:.35s;
-
-}
-
-.logo:hover .logo-icon{
-
-    transform:rotate(-8deg) scale(1.08);
-
-}
-
-.logo-text h2{
-
-    margin:0;
-
-    color:white;
-
-    font-size:24px;
-
-    font-weight:800;
-
-    letter-spacing:.5px;
-
-}
-
-.logo-text p{
-
-    margin-top:4px;
-
-    color:#CBD5E1;
-
-    font-size:13px;
-
-}
-
-.menu{
-
-    display:flex;
-
-    list-style:none;
-
-    gap:34px;
-
-    margin:0;
-
-    padding:0;
-
-}
-
-.menu li{
-
-    position:relative;
-
-    color:#CBD5E1;
-
-    cursor:pointer;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    transition:.3s;
-
-    padding:8px 0;
-
-}
-
-.menu li:hover{
-
-    color:white;
-
-}
-
-.menu li::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:0;
-
-    bottom:-6px;
-
-    width:0;
-
-    height:3px;
-
-    border-radius:20px;
-
-    background:#38BDF8;
-
-    transition:.3s;
-
-}
-
-.menu li:hover::after{
-
-    width:100%;
-
-}
-
-.active{
-
-    color:white !important;
-
-}
-
-.active::after{
-
-    width:100% !important;
-
-}
-
-.profile{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-}
-
-.profile-circle{
-
-    width:48px;
-
-    height:48px;
-
-    border-radius:50%;
-
-    background:linear-gradient(135deg,#2563EB,#38BDF8);
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    color:white;
-
-    font-size:18px;
-
-    font-weight:700;
-
-    box-shadow:0 8px 22px rgba(37,99,235,.35);
-
-}
-
-.profile-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-.profile-name{
-
-    color:white;
-
-    font-size:15px;
-
-    font-weight:700;
-
-}
-
-.profile-role{
-
-    color:#CBD5E1;
-
-    font-size:12px;
-
-}
-
-@media(max-width:1100px){
-
-    .menu{
-
-        display:none;
-
-    }
-
-}
-
-@media(max-width:768px){
-
-    .navbar{
-
-        padding:0 20px;
-
-    }
-
-    .logo-text p{
-
-        display:none;
-
-    }
-
-    .profile-role{
-
-        display:none;
-
-    }
-
-    .logout-btn{
-
-        padding:10px 14px;
-
-        font-size:14px;
-
-    }
-
-}
-.logout-btn{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    background:linear-gradient(135deg,#ef4444,#dc2626);
-
-    color:white;
-
-    border:none;
-
-    padding:12px 18px;
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-    font-size:15px;
-
-    font-weight:600;
-
-    margin-left:20px;
-
-    transition:.35s;
-
-    box-shadow:0 8px 20px rgba(239,68,68,.25);
-
-}
-
-.logout-btn:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 15px 30px rgba(239,68,68,.35);
-
-}
-
-.logout-btn svg{
-
-    font-size:16px;
-
-}
-/* =======================================
-        Navbar Premium Upgrade
-======================================= */
-
-.navbar{
-
-    transition:all .35s ease;
-
-}
-
-.navbar:hover{
-
-    box-shadow:0 18px 45px rgba(0,0,0,.25);
-
-}
-
-.logo{
-
-    cursor:pointer;
-
-}
-
-.logo-icon{
 
     position:relative;
 
@@ -380,25 +118,118 @@
 
 .logo:hover .logo-icon{
 
-    transform:rotate(-10deg) scale(1.12);
+    transform:
+        rotate(-10deg)
+        scale(1.12);
+
+}
+
+.logo-text h2{
+
+    margin:0;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:800;
+
+    letter-spacing:.5px;
+
+}
+
+.logo-text p{
+
+    margin-top:4px;
+
+    color:#CBD5E1;
+
+    font-size:13px;
+
+}
+
+
+/* =======================================
+DESKTOP MENU
+======================================= */
+
+.menu{
+
+    display:flex;
+
+    list-style:none;
+
+    gap:18px;
+
+    margin:0;
+
+    padding:0;
 
 }
 
 .menu li{
 
-    border-radius:10px;
+    position:relative;
+
+    color:#CBD5E1;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    transition:all .35s ease;
 
     padding:12px 16px;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+.menu li::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:10px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(59,130,246,.15),
+        transparent
+    );
+
+    opacity:0;
+
+    transition:.35s;
+
+}
+
+.menu li:hover::before{
+
+    opacity:1;
 
 }
 
 .menu li:hover{
 
-    background:rgba(255,255,255,.08);
+    color:white;
+
+    transform:translateY(-2px);
 
 }
 
 .menu li::after{
+
+    content:"";
+
+    position:absolute;
 
     bottom:0;
 
@@ -408,6 +239,18 @@
 
     width:0;
 
+    height:3px;
+
+    border-radius:20px;
+
+    background:linear-gradient(
+        90deg,
+        #38BDF8,
+        #2563EB
+    );
+
+    transition:.35s;
+
 }
 
 .menu li:hover::after{
@@ -416,7 +259,36 @@
 
 }
 
+.menu li.active{
+
+    color:white !important;
+
+    background:rgba(37,99,235,.18);
+
+    border-radius:12px;
+
+    transform:translateY(-2px);
+
+}
+
+.menu li.active::after{
+
+    width:70% !important;
+
+}
+
+
+/* =======================================
+PROFILE
+======================================= */
+
 .profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
 
     background:rgba(255,255,255,.05);
 
@@ -425,6 +297,8 @@
     border-radius:18px;
 
     backdrop-filter:blur(12px);
+
+    transition:.35s;
 
 }
 
@@ -436,6 +310,33 @@
 
 .profile-circle{
 
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #38BDF8
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    box-shadow:
+        0 8px 22px rgba(37,99,235,.35);
+
     transition:.35s;
 
 }
@@ -443,6 +344,24 @@
 .profile:hover .profile-circle{
 
     transform:scale(1.08);
+
+}
+
+.profile-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.profile-name{
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:700;
 
 }
 
@@ -454,7 +373,7 @@
 
     gap:8px;
 
-    color:#cbd5e1;
+    color:#CBD5E1;
 
     font-size:12px;
 
@@ -477,8 +396,10 @@
     animation:onlinePulse 1.5s infinite;
 
 }
+
+
 /* =======================================
-        Premium Logout Button
+LOGOUT
 ======================================= */
 
 .logout-btn{
@@ -486,6 +407,39 @@
     position:relative;
 
     overflow:hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:linear-gradient(
+        135deg,
+        #EF4444,
+        #DC2626
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    margin-left:20px;
+
+    transition:.35s;
+
+    box-shadow:
+        0 8px 20px rgba(239,68,68,.25);
 
 }
 
@@ -521,7 +475,8 @@
 
     transform:translateY(-4px);
 
-    box-shadow:0 18px 35px rgba(239,68,68,.35);
+    box-shadow:
+        0 18px 35px rgba(239,68,68,.35);
 
 }
 
@@ -531,57 +486,76 @@
 
 }
 
-/* =======================================
-        Menu Hover Animation
-======================================= */
+.logout-btn svg{
 
-.menu li{
-
-    overflow:hidden;
+    font-size:16px;
 
 }
 
-.menu li::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    border-radius:10px;
-
-    background:linear-gradient(
-
-        135deg,
-
-        rgba(59,130,246,.15),
-
-        transparent
-
-    );
-
-    opacity:0;
-
-    transition:.35s;
-
-}
-
-.menu li:hover::before{
-
-    opacity:1;
-
-}
 
 /* =======================================
-        Navbar Entrance
+MOBILE MENU BUTTON
 ======================================= */
 
-.navbar{
+.mobile-menu-btn{
 
-    animation:navbarSlide .8s ease;
+    display:none;
+
+    width:46px;
+
+    height:46px;
+
+    border:none;
+
+    border-radius:13px;
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:21px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    margin-left:4px;
 
 }
+
+.mobile-menu-btn:hover{
+
+    background:rgba(37,99,235,.5);
+
+    transform:scale(1.05);
+
+}
+
+.mobile-menu-btn:active{
+
+    transform:scale(.94);
+
+}
+
+
+/* =======================================
+MOBILE DROPDOWN
+======================================= */
+
+.mobile-menu{
+
+    display:none;
+
+}
+
+
+/* =======================================
+ANIMATIONS
+======================================= */
 
 @keyframes navbarSlide{
 
@@ -602,10 +576,6 @@
     }
 
 }
-
-/* =======================================
-        Online Indicator
-======================================= */
 
 @keyframes onlinePulse{
 
@@ -635,41 +605,70 @@
 
 }
 
+
 /* =======================================
-        Mobile
+TABLET
 ======================================= */
 
-@media(max-width:900px){
+@media(max-width:1100px){
 
-    .profile{
+    .navbar{
 
-        padding:10px;
-
-    }
-
-    .profile-info{
-
-        display:none;
+        padding:0 25px;
 
     }
 
-    .logout-btn{
+    .menu{
 
-        margin-left:10px;
+        gap:5px;
 
-        padding:10px 14px;
+    }
+
+    .menu li{
+
+        padding:10px 10px;
+
+        font-size:14px;
 
     }
 
 }
 
-@media(max-width:700px){
+
+/* =======================================
+MOBILE
+======================================= */
+
+@media(max-width:768px){
 
     .navbar{
+
+        height:72px;
 
         padding:0 16px;
 
     }
+
+
+    .logo{
+
+        gap:10px;
+
+    }
+
+
+    .logo-icon{
+
+        width:48px;
+
+        height:48px;
+
+        border-radius:14px;
+
+        font-size:24px;
+
+    }
+
 
     .logo-text h2{
 
@@ -677,109 +676,429 @@
 
     }
 
-    .logo-icon{
 
-        width:50px;
+    .logo-text p{
 
-        height:50px;
+        display:none;
 
-        font-size:24px;
+    }
+
+
+    /* Hide desktop navigation */
+
+    .menu{
+
+        display:none;
+
+    }
+
+
+    /* Hide desktop profile information */
+
+    .profile{
+
+        padding:0;
+
+        gap:8px;
+
+        background:transparent;
+
+        backdrop-filter:none;
+
+    }
+
+
+    .profile-info{
+
+        display:none;
+
+    }
+
+
+    .profile-circle{
+
+        width:42px;
+
+        height:42px;
+
+        font-size:16px;
+
+    }
+
+
+    .logout-btn{
+
+        display:none;
+
+    }
+
+
+    /* Show hamburger */
+
+    .mobile-menu-btn{
+
+        display:flex;
+
+    }
+
+
+    /* Mobile dropdown */
+
+    .mobile-menu{
+
+        display:block;
+
+        position:absolute;
+
+        top:72px;
+
+        left:10px;
+
+        right:10px;
+
+        background:rgba(15,23,42,.98);
+
+        border:1px solid rgba(255,255,255,.10);
+
+        border-radius:20px;
+
+        padding:16px;
+
+        box-shadow:
+            0 25px 60px rgba(0,0,0,.35);
+
+        backdrop-filter:blur(18px);
+
+        -webkit-backdrop-filter:blur(18px);
+
+        opacity:0;
+
+        visibility:hidden;
+
+        transform:
+            translateY(-12px)
+            scale(.98);
+
+        transform-origin:top;
+
+        transition:
+            opacity .25s ease,
+            transform .25s ease,
+            visibility .25s ease;
+
+    }
+
+
+    .mobile-menu-open{
+
+        opacity:1;
+
+        visibility:visible;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+
+    .mobile-menu-header{
+
+        padding:8px 8px 14px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.08);
+
+    }
+
+
+    .mobile-menu-title{
+
+        display:block;
+
+        color:white;
+
+        font-size:18px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-menu-subtitle{
+
+        display:block;
+
+        color:#94A3B8;
+
+        font-size:12px;
+
+        margin-top:4px;
+
+    }
+
+
+    .mobile-menu-items{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:7px;
+
+        padding:14px 0;
+
+    }
+
+
+    .mobile-menu-item{
+
+        width:100%;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        border:none;
+
+        border-radius:12px;
+
+        padding:13px 15px;
+
+        background:transparent;
+
+        color:#CBD5E1;
+
+        font-size:15px;
+
+        font-weight:600;
+
+        text-align:left;
+
+        cursor:pointer;
+
+        transition:.25s;
+
+    }
+
+
+    .mobile-menu-item:hover{
+
+        background:rgba(255,255,255,.07);
+
+        color:white;
+
+    }
+
+
+    .active-mobile{
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(37,99,235,.35),
+                rgba(56,189,248,.12)
+            );
+
+        color:white;
+
+    }
+
+
+    .mobile-active-dot{
+
+        color:#38BDF8;
+
+        font-size:11px;
+
+    }
+
+
+    .mobile-user{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:12px;
+
+        padding:14px 4px;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.08);
+
+    }
+
+
+    .mobile-user-avatar{
+
+        width:42px;
+
+        height:42px;
+
+        border-radius:50%;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #2563EB,
+                #38BDF8
+            );
+
+        color:white;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-user-info{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:4px;
+
+    }
+
+
+    .mobile-user-info strong{
+
+        color:white;
+
+        font-size:14px;
+
+    }
+
+
+    .mobile-user-info span{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:7px;
+
+        color:#94A3B8;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-logout{
+
+        width:100%;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:9px;
+
+        border:none;
+
+        border-radius:12px;
+
+        padding:12px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #EF4444,
+                #DC2626
+            );
+
+        color:white;
+
+        font-size:14px;
+
+        font-weight:700;
+
+        cursor:pointer;
+
+        transition:.3s;
+
+    }
+
+
+    .mobile-logout:hover{
+
+        transform:translateY(-2px);
 
     }
 
 }
+
+
 /* =======================================
-        Active Navigation Upgrade
+SMALL MOBILE
 ======================================= */
 
-.menu li{
+@media(max-width:420px){
 
-    position:relative;
+    .navbar{
 
-    transition:all .35s ease;
+        padding:0 12px;
 
-}
+    }
 
-.menu li.active{
 
-    color:#ffffff !important;
+    .logo-text h2{
 
-    background:rgba(37,99,235,.18);
+        font-size:18px;
 
-    border-radius:12px;
+    }
 
-    transform:translateY(-2px);
 
-}
+    .logo-icon{
 
-.menu li.active::after{
+        width:44px;
 
-    width:70% !important;
+        height:44px;
 
-    left:50%;
+        font-size:22px;
 
-    transform:translateX(-50%);
+    }
 
-    height:3px;
 
-    background:linear-gradient(
+    .profile-circle{
 
-        90deg,
+        width:39px;
 
-        #38BDF8,
+        height:39px;
 
-        #2563EB
+    }
 
-    );
 
-    border-radius:50px;
+    .mobile-menu-btn{
 
-}
+        width:42px;
 
-.menu li.active::before{
+        height:42px;
 
-    content:"";
+    }
 
-    position:absolute;
 
-    inset:0;
+    .mobile-menu{
 
-    border-radius:12px;
+        left:8px;
 
-    background:linear-gradient(
+        right:8px;
 
-        135deg,
-
-        rgba(56,189,248,.12),
-
-        rgba(37,99,235,.05)
-
-    );
-
-    z-index:-1;
-
-}
-
-.menu li:hover{
-
-    transform:translateY(-2px);
-
-}
-
-.menu li:hover::after{
-
-    width:70%;
-
-}
-
-/* Smooth active animation */
-
-.menu li,
-
-.menu li::after,
-
-.menu li::before{
-
-    transition:all .35s ease;
+    }
 
 }
