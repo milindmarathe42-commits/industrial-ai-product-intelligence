@@ -22,6 +22,12 @@ function ProductTable({ products, refreshData }) {
 
     const [previewImage, setPreviewImage] = useState(null);
 
+    const getImageUrl = (image) => {
+
+        return `https://industrial-ai-product-intelligence-production.up.railway.app/${image}`;
+
+    };
+
     const deleteProduct = async (id) => {
 
         const result = await Swal.fire({
@@ -82,6 +88,10 @@ function ProductTable({ products, refreshData }) {
 
         <>
 
+            {/* ==========================================
+                DESKTOP / TABLET TABLE
+            ========================================== */}
+
             <div className="table-container">
 
                 <table>
@@ -115,11 +125,8 @@ function ProductTable({ products, refreshData }) {
                                 <tr>
 
                                     <td
-
                                         colSpan="6"
-
                                         className="empty-table"
-
                                     >
 
                                         No Inspection Records Found
@@ -144,7 +151,9 @@ function ProductTable({ products, refreshData }) {
 
                                             <img
 
-                                                src={`https://industrial-ai-product-intelligence-production.up.railway.app/${item.output_image}`}
+                                                src={getImageUrl(
+                                                    item.output_image
+                                                )}
 
                                                 alt="product"
 
@@ -154,7 +163,9 @@ function ProductTable({ products, refreshData }) {
 
                                                     setPreviewImage(
 
-                                                        `https://industrial-ai-product-intelligence-production.up.railway.app/${item.output_image}`
+                                                        getImageUrl(
+                                                            item.output_image
+                                                        )
 
                                                     )
 
@@ -180,7 +191,9 @@ function ProductTable({ products, refreshData }) {
 
                                             <span
 
-                                                className={`status-badge ${item.condition.toLowerCase()}`}
+                                                className={
+                                                    `status-badge ${item.condition.toLowerCase()}`
+                                                }
 
                                             >
 
@@ -212,7 +225,9 @@ function ProductTable({ products, refreshData }) {
 
                                                     onClick={() =>
 
-                                                        setSelectedProduct(item)
+                                                        setSelectedProduct(
+                                                            item
+                                                        )
 
                                                     }
 
@@ -230,7 +245,9 @@ function ProductTable({ products, refreshData }) {
 
                                                     onClick={() =>
 
-                                                        deleteProduct(item.id)
+                                                        deleteProduct(
+                                                            item.id
+                                                        )
 
                                                     }
 
@@ -258,6 +275,207 @@ function ProductTable({ products, refreshData }) {
 
             </div>
 
+
+            {/* ==========================================
+                MOBILE INSPECTION CARDS
+            ========================================== */}
+
+            <div className="mobile-product-list">
+
+                {
+
+                    products.length === 0 ?
+
+                        <div className="mobile-empty">
+
+                            No Inspection Records Found
+
+                        </div>
+
+                        :
+
+                        products.map((item) => (
+
+                            <div
+                                className="mobile-product-card"
+                                key={item.id}
+                            >
+
+                                {/* CARD HEADER */}
+
+                                <div className="mobile-card-header">
+
+                                    <span className="mobile-product-id">
+
+                                        #{item.id}
+
+                                    </span>
+
+                                    <div className="mobile-quality-top">
+
+                                        <FaStar />
+
+                                        {item.quality_score}%
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* IMAGE */}
+
+                                <div className="mobile-image-wrapper">
+
+                                    <img
+
+                                        src={getImageUrl(
+                                            item.output_image
+                                        )}
+
+                                        alt="product"
+
+                                        className="mobile-product-image"
+
+                                        onClick={() =>
+
+                                            setPreviewImage(
+
+                                                getImageUrl(
+                                                    item.output_image
+                                                )
+
+                                            )
+
+                                        }
+
+                                    />
+
+                                </div>
+
+
+                                {/* PRODUCT NAME */}
+
+                                <div className="mobile-product-name">
+
+                                    <FaBoxOpen />
+
+                                    <span>
+
+                                        {item.product_name}
+
+                                    </span>
+
+                                </div>
+
+
+                                {/* DETAILS */}
+
+                                <div className="mobile-product-details">
+
+                                    <div className="mobile-detail-row">
+
+                                        <span>
+
+                                            Status
+
+                                        </span>
+
+                                        <span
+
+                                            className={
+                                                `status-badge ${item.condition.toLowerCase()}`
+                                            }
+
+                                        >
+
+                                            {item.condition}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div className="mobile-detail-row">
+
+                                        <span>
+
+                                            Quality
+
+                                        </span>
+
+                                        <span className="mobile-quality">
+
+                                            <FaStar />
+
+                                            {item.quality_score}%
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* ACTIONS */}
+
+                                <div className="mobile-card-actions">
+
+                                    <button
+
+                                        className="view-btn"
+
+                                        onClick={() =>
+
+                                            setSelectedProduct(
+                                                item
+                                            )
+
+                                        }
+
+                                    >
+
+                                        <FaEye />
+
+                                        View
+
+                                    </button>
+
+
+                                    <button
+
+                                        className="delete-btn"
+
+                                        onClick={() =>
+
+                                            deleteProduct(
+                                                item.id
+                                            )
+
+                                        }
+
+                                    >
+
+                                        <FaTrashAlt />
+
+                                        Delete
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        ))
+
+                }
+
+            </div>
+
+
+            {/* ==========================================
+                PRODUCT MODAL
+            ========================================== */}
+
             {
 
                 selectedProduct &&
@@ -275,6 +493,11 @@ function ProductTable({ products, refreshData }) {
                 />
 
             }
+
+
+            {/* ==========================================
+                IMAGE VIEWER
+            ========================================== */}
 
             {
 
