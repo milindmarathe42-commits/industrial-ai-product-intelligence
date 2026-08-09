@@ -1,14 +1,17 @@
-from fastapi import APIRouter, UploadFile, File, Depends
+from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.product import Product
+from app.models.user import User
 
 from app.services.image_processing import process_image
 from app.services.ai_detection import detect_objects
 from app.services.product_analysis import analyze_product
 from app.services.gemini_service import ask_gemini
 from app.services.pdf_service import generate_pdf
+
+from app.api.auth import get_current_user
 
 import shutil
 import os
@@ -20,11 +23,33 @@ UPLOAD_FOLDER = "uploads"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
 @router.post("/upload")
 async def upload_image(
+
     file: UploadFile = File(...),
-    db: Session = Depends(get_db)
+
+    db: Session = Depends(get_db),
+
+    current_user: User = Depends(get_current_user)
+
 ):
+
+    # -------------------------------------
+    # Validate File
+    # -------------------------------------
+
+    if not file.filename:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file."
+        )
+
+
+    # -------------------------------------
+    # Save Uploaded Image
+    # -------------------------------------
 
     file_path = os.path.join(
         UPLOAD_FOLDER,
@@ -38,11 +63,13 @@ async def upload_image(
             buffer
         )
 
+
     # -------------------------------------
     # OpenCV Processing
     # -------------------------------------
 
     result = process_image(file_path)
+
 
     # -------------------------------------
     # YOLO Detection
@@ -53,6 +80,7 @@ async def upload_image(
     output_path = output_path.replace("\\", "/")
 
     detections = []
+
 
     for box in results[0].boxes:
 
@@ -66,15 +94,22 @@ async def upload_image(
 
             "object": class_name,
 
-            "confidence": round(confidence, 2)
+            "confidence": round(
+                confidence,
+                2
+            )
 
         })
+
 
     # -------------------------------------
     # Product Analysis
     # -------------------------------------
 
-    product_result = analyze_product(detections)
+    product_result = analyze_product(
+        detections
+    )
+
 
     # -------------------------------------
     # Gemini AI Report
@@ -88,6 +123,7 @@ async def upload_image(
 
     )
 
+
     # -------------------------------------
     # Generate PDF
     # -------------------------------------
@@ -96,83 +132,97 @@ async def upload_image(
 
         "input_image": file_path,
 
-        "output_image": f"outputs/{os.path.basename(output_path)}",
+        "output_image": (
+            f"outputs/{os.path.basename(output_path)}"
+        ),
 
         "ai_report": ai_report
 
     })
 
-    pdf_path = pdf_path.replace("\\", "/")
+    pdf_path = pdf_path.replace(
+        "\\",
+        "/"
+    )
+
+
     # -------------------------------------
     # Save into Database
     # -------------------------------------
 
     new_product = Product(
 
-    filename=file.filename,
+        user_id=current_user.id,
 
-    input_image=f"uploads/{file.filename}",
+        filename=file.filename,
 
-    output_image=f"outputs/{os.path.basename(output_path)}",
+        input_image=f"uploads/{file.filename}",
 
-    product_name=ai_report.get(
-        "product_name",
-        product_result["product"]
-    ),
+        output_image=(
+            f"outputs/{os.path.basename(output_path)}"
+        ),
 
-    confidence=product_result.get(
-        "confidence",
-        0
-    ),
+        product_name=ai_report.get(
+            "product_name",
+            product_result["product"]
+        ),
 
-    brand=ai_report.get(
-        "brand",
-        "Unknown"
-    ),
+        confidence=product_result.get(
+            "confidence",
+            0
+        ),
 
-    category=ai_report.get(
-        "category",
-        "Unknown"
-    ),
+        brand=ai_report.get(
+            "brand",
+            "Unknown"
+        ),
 
-    condition=ai_report.get(
-        "condition",
-        "Unknown"
-    ),
+        category=ai_report.get(
+            "category",
+            "Unknown"
+        ),
 
-    quality_score=ai_report.get(
-        "quality_score",
-        0
-    ),
+        condition=ai_report.get(
+            "condition",
+            "Unknown"
+        ),
 
-    recommendation=ai_report.get(
-        "recommendation",
-        ""
-    ),
+        quality_score=ai_report.get(
+            "quality_score",
+            0
+        ),
 
-    summary=ai_report.get(
-        "summary",
-        ""
-    ),
+        recommendation=ai_report.get(
+            "recommendation",
+            ""
+        ),
 
-    possible_defects=json.dumps(
+        summary=ai_report.get(
+            "summary",
+            ""
+        ),
 
-        ai_report.get(
-            "possible_defects",
-            []
-        )
+        possible_defects=json.dumps(
 
-    ),
+            ai_report.get(
+                "possible_defects",
+                []
+            )
 
-    pdf_report=pdf_path
+        ),
 
-)
+        pdf_report=pdf_path
+
+    )
+
 
     db.add(new_product)
 
     db.commit()
 
     db.refresh(new_product)
+
+
     # -------------------------------------
     # Response
     # -------------------------------------
@@ -191,7 +241,9 @@ async def upload_image(
 
         "ai_report": ai_report,
 
-        "output_image": f"outputs/{os.path.basename(output_path)}",
+        "output_image": (
+            f"outputs/{os.path.basename(output_path)}"
+        ),
 
         "pdf_report": pdf_path,
 
