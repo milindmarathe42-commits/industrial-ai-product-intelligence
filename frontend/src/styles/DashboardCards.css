@@ -12,6 +12,7 @@
 
 }
 
+
 .card{
 
     position:relative;
@@ -37,6 +38,7 @@
 
 }
 
+
 .card:hover{
 
     transform:translateY(-8px);
@@ -45,6 +47,7 @@
         0 25px 50px rgba(37,99,235,.18);
 
 }
+
 
 .card::before{
 
@@ -66,11 +69,13 @@
 
 }
 
+
 .card:nth-child(1)::before{
 
     background:#3b82f6;
 
 }
+
 
 .card:nth-child(2)::before{
 
@@ -78,17 +83,20 @@
 
 }
 
+
 .card:nth-child(3)::before{
 
     background:#f59e0b;
 
 }
 
+
 .card:nth-child(4)::before{
 
     background:#8b5cf6;
 
 }
+
 
 .card-icon{
 
@@ -114,11 +122,13 @@
 
 }
 
+
 .card:nth-child(1) .card-icon{
 
     background:linear-gradient(135deg,#2563eb,#3b82f6);
 
 }
+
 
 .card:nth-child(2) .card-icon{
 
@@ -126,17 +136,20 @@
 
 }
 
+
 .card:nth-child(3) .card-icon{
 
     background:linear-gradient(135deg,#f59e0b,#fbbf24);
 
 }
 
+
 .card:nth-child(4) .card-icon{
 
     background:linear-gradient(135deg,#7c3aed,#8b5cf6);
 
 }
+
 
 .card h3{
 
@@ -149,6 +162,7 @@
     margin-bottom:18px;
 
 }
+
 
 .card h1{
 
@@ -164,6 +178,7 @@
 
 }
 
+
 .card p{
 
     color:#94a3b8;
@@ -174,6 +189,7 @@
 
 }
 
+
 .card:hover .card-icon{
 
     transform:rotate(-8deg) scale(1.08);
@@ -182,31 +198,18 @@
 
 }
 
+
 .card:hover h1{
 
     color:#2563eb;
 
 }
 
-@media(max-width:900px){
 
-    .cards-container{
+/* =========================================
+   TREND BADGES
+========================================= */
 
-        grid-template-columns:repeat(2,1fr);
-
-    }
-
-}
-
-@media(max-width:650px){
-
-    .cards-container{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
 .trend-badge{
 
     position:absolute;
@@ -229,11 +232,13 @@
 
 }
 
+
 .blue{
 
     background:linear-gradient(135deg,#2563eb,#3b82f6);
 
 }
+
 
 .green{
 
@@ -241,14 +246,223 @@
 
 }
 
+
 .orange{
 
     background:linear-gradient(135deg,#f59e0b,#fbbf24);
 
 }
 
+
 .purple{
 
     background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media(max-width:900px){
+
+    .cards-container{
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:20px;
+
+    }
+
+
+    .card{
+
+        padding:26px;
+
+        min-height:200px;
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:650px){
+
+    .cards-container{
+
+        width:94%;
+
+        grid-template-columns:1fr;
+
+        gap:18px;
+
+        margin:25px auto;
+
+    }
+
+
+    .card{
+
+        padding:22px;
+
+        min-height:165px;
+
+        border-radius:22px;
+
+    }
+
+
+    .card-icon{
+
+        width:62px;
+
+        height:62px;
+
+        border-radius:18px;
+
+        font-size:30px;
+
+        margin-bottom:14px;
+
+    }
+
+
+    .card h3{
+
+        font-size:15px;
+
+        margin-bottom:8px;
+
+    }
+
+
+    .card h1{
+
+        font-size:46px;
+
+        margin-bottom:8px;
+
+    }
+
+
+    .card p{
+
+        font-size:13px;
+
+    }
+
+
+    .trend-badge{
+
+        top:16px;
+
+        right:16px;
+
+        padding:5px 11px;
+
+        font-size:11px;
+
+    }
+
+
+    .card::before{
+
+        width:180px;
+
+        height:180px;
+
+        top:-95px;
+
+        right:-80px;
+
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+    .cards-container{
+
+        width:94%;
+
+        gap:15px;
+
+        margin:20px auto;
+
+    }
+
+
+    .card{
+
+        padding:18px;
+
+        min-height:145px;
+
+        border-radius:20px;
+
+    }
+
+
+    .card-icon{
+
+        width:56px;
+
+        height:56px;
+
+        border-radius:16px;
+
+        font-size:27px;
+
+        margin-bottom:11px;
+
+    }
+
+
+    .card h3{
+
+        font-size:14px;
+
+        margin-bottom:6px;
+
+    }
+
+
+    .card h1{
+
+        font-size:40px;
+
+        margin-bottom:6px;
+
+    }
+
+
+    .card p{
+
+        font-size:12px;
+
+    }
+
+
+    .trend-badge{
+
+        top:14px;
+
+        right:14px;
+
+        padding:5px 9px;
+
+        font-size:10px;
+
+    }
 
 }
