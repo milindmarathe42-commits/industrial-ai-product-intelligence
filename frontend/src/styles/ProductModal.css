@@ -2,9 +2,7 @@
 
     position:fixed;
 
-    top:0;
-
-    left:0;
+    inset:0;
 
     width:100%;
 
@@ -21,6 +19,10 @@
     z-index:9999;
 
     animation:fadeIn .3s ease;
+
+    padding:20px;
+
+    box-sizing:border-box;
 
 }
 
@@ -44,7 +46,14 @@
 
     box-shadow:0 20px 60px rgba(0,0,0,.35);
 
+    box-sizing:border-box;
+
 }
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
 
 .close-btn{
 
@@ -72,6 +81,8 @@
 
     transition:.3s;
 
+    z-index:10;
+
 }
 
 .close-btn:hover{
@@ -79,6 +90,11 @@
     transform:rotate(90deg);
 
 }
+
+
+/* ==========================================
+   TITLE
+========================================== */
 
 .modal-card h2{
 
@@ -92,7 +108,14 @@
 
     margin-bottom:30px;
 
+    padding-right:55px;
+
 }
+
+
+/* ==========================================
+   TOP SECTION
+========================================== */
 
 .modal-top{
 
@@ -105,6 +128,11 @@
     margin-bottom:35px;
 
 }
+
+
+/* ==========================================
+   IMAGE COMPARISON
+========================================== */
 
 .image-comparison{
 
@@ -126,7 +154,8 @@
 
     text-align:center;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.08);
 
 }
 
@@ -162,9 +191,15 @@
 
     border-radius:16px;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.15);
 
 }
+
+
+/* ==========================================
+   INFORMATION
+========================================== */
 
 .info-row{
 
@@ -180,6 +215,8 @@
 
     font-size:17px;
 
+    gap:10px;
+
 }
 
 .info-row svg{
@@ -187,6 +224,8 @@
     color:#2563eb;
 
     margin-right:10px;
+
+    flex-shrink:0;
 
 }
 
@@ -204,7 +243,16 @@
 
     color:#111827;
 
+    text-align:right;
+
+    word-break:break-word;
+
 }
+
+
+/* ==========================================
+   QUALITY SCORE
+========================================== */
 
 .score-box{
 
@@ -240,7 +288,11 @@
 
     height:100%;
 
-    background:linear-gradient(90deg,#22c55e,#2563eb);
+    background:linear-gradient(
+        90deg,
+        #22c55e,
+        #2563eb
+    );
 
     border-radius:30px;
 
@@ -257,6 +309,11 @@
     color:#2563eb;
 
 }
+
+
+/* ==========================================
+   MODAL SECTIONS
+========================================== */
 
 .modal-sections{
 
@@ -290,6 +347,16 @@
 
 }
 
+.modal-section p{
+
+    color:#334155;
+
+    line-height:1.7;
+
+    word-break:break-word;
+
+}
+
 .modal-section ul{
 
     padding-left:20px;
@@ -300,7 +367,16 @@
 
     margin-bottom:10px;
 
+    color:#334155;
+
+    line-height:1.5;
+
 }
+
+
+/* ==========================================
+   FOOTER
+========================================== */
 
 .modal-footer{
 
@@ -317,6 +393,8 @@
     display:inline-flex;
 
     align-items:center;
+
+    justify-content:center;
 
     gap:10px;
 
@@ -342,6 +420,89 @@
 
 }
 
+
+/* ==========================================
+   COMPARE BUTTON
+========================================== */
+
+.compare-btn{
+
+    width:100%;
+
+    margin-top:25px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #1D4ED8
+    );
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    transition:.35s;
+
+    box-shadow:
+        0 12px 28px rgba(37,99,235,.25);
+
+}
+
+.compare-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 18px 35px rgba(37,99,235,.35);
+
+}
+
+
+/* ==========================================
+   COMPARISON SECTION
+========================================== */
+
+.comparison-section{
+
+    margin:30px 0;
+
+}
+
+.comparison-section h3{
+
+    color:#2563EB;
+
+    margin-bottom:18px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================================
+   ANIMATION
+========================================== */
+
 @keyframes fadeIn{
 
     from{
@@ -362,103 +523,419 @@
 
 }
 
+
+/* ==========================================
+   TABLET
+========================================== */
+
 @media(max-width:900px){
 
-.modal-top{
+    .modal-overlay{
 
-    grid-template-columns:1fr;
+        padding:15px;
 
-}
+    }
 
-.image-comparison{
+    .modal-card{
 
-    grid-template-columns:1fr;
+        width:95%;
 
-}
+        max-height:92vh;
 
-.modal-card{
+        padding:25px;
 
-width:95%;
+    }
 
-padding:20px;
+    .modal-top{
 
-}
+        grid-template-columns:1fr;
 
-}
-.comparison-section{
+    }
 
-    margin-top:35px;
+    .image-comparison{
 
-}
+        grid-template-columns:1fr 1fr;
 
-.comparison-section h3{
-
-    margin-bottom:18px;
-
-    color:#2563EB;
-
-    font-size:22px;
-
-    font-weight:700;
-
-}
-.comparison-section{
-
-    margin:30px 0;
+    }
 
 }
 
-.comparison-section h3{
 
-    color:#2563EB;
+/* ==========================================
+   MOBILE
+========================================== */
 
-    margin-bottom:18px;
+@media(max-width:768px){
 
-    font-size:22px;
+    .modal-overlay{
 
-    font-weight:700;
+        align-items:center;
+
+        padding:10px;
+
+    }
+
+
+    .modal-card{
+
+        width:100%;
+
+        max-width:none;
+
+        max-height:94vh;
+
+        padding:20px 16px;
+
+        border-radius:18px;
+
+    }
+
+
+    .close-btn{
+
+        top:12px;
+
+        right:12px;
+
+        width:40px;
+
+        height:40px;
+
+        font-size:16px;
+
+    }
+
+
+    .modal-card h2{
+
+        font-size:21px;
+
+        line-height:1.3;
+
+        margin-bottom:22px;
+
+        padding-right:45px;
+
+    }
+
+
+    .modal-top{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:22px;
+
+        margin-bottom:25px;
+
+    }
+
+
+    .image-comparison{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+        gap:10px;
+
+    }
+
+
+    .image-box{
+
+        padding:10px;
+
+        border-radius:12px;
+
+    }
+
+
+    .image-box h3{
+
+        font-size:13px;
+
+        margin-bottom:9px;
+
+    }
+
+
+    .image-box img{
+
+        width:100%;
+
+        height:145px;
+
+        border-radius:9px;
+
+    }
+
+
+    .info-row{
+
+        padding:11px 0;
+
+        font-size:14px;
+
+        gap:6px;
+
+    }
+
+
+    .info-row svg{
+
+        font-size:14px;
+
+        margin-right:3px;
+
+    }
+
+
+    .info-row span{
+
+        margin-left:3px;
+
+    }
+
+
+    .info-row b{
+
+        max-width:45%;
+
+        font-size:13px;
+
+    }
+
+
+    .score-box{
+
+        margin-top:22px;
+
+    }
+
+
+    .score-title{
+
+        font-size:14px;
+
+    }
+
+
+    .score-bar{
+
+        height:14px;
+
+    }
+
+
+    .score-box p{
+
+        font-size:19px;
+
+        margin-top:8px;
+
+    }
+
+
+    .compare-btn{
+
+        margin-top:18px;
+
+        padding:13px 10px;
+
+        min-height:48px;
+
+        font-size:13px;
+
+        line-height:1.3;
+
+    }
+
+
+    .modal-sections{
+
+        gap:14px;
+
+    }
+
+
+    .modal-section{
+
+        padding:17px 15px;
+
+        border-radius:12px;
+
+    }
+
+
+    .modal-section h3{
+
+        font-size:16px;
+
+        gap:8px;
+
+        margin-bottom:10px;
+
+    }
+
+
+    .modal-section p{
+
+        font-size:13px;
+
+        line-height:1.65;
+
+    }
+
+
+    .modal-section ul{
+
+        padding-left:18px;
+
+    }
+
+
+    .modal-section li{
+
+        font-size:13px;
+
+        margin-bottom:8px;
+
+    }
+
+
+    .modal-footer{
+
+        margin-top:20px;
+
+    }
+
+
+    .download-btn{
+
+        width:100%;
+
+        box-sizing:border-box;
+
+        min-height:48px;
+
+        padding:12px 15px;
+
+        font-size:14px;
+
+    }
 
 }
-.compare-btn{
 
-    width:100%;
 
-    margin-top:25px;
+/* ==========================================
+   SMALL MOBILE
+========================================== */
 
-    padding:16px;
+@media(max-width:480px){
 
-    border:none;
+    .modal-overlay{
 
-    border-radius:14px;
+        padding:6px;
 
-    background:linear-gradient(135deg,#2563EB,#1D4ED8);
+    }
 
-    color:white;
 
-    font-size:16px;
+    .modal-card{
 
-    font-weight:700;
+        max-height:95vh;
 
-    cursor:pointer;
+        padding:18px 13px;
 
-    display:flex;
+        border-radius:16px;
 
-    justify-content:center;
+    }
 
-    align-items:center;
 
-    gap:12px;
+    .modal-card h2{
 
-    transition:.35s;
+        font-size:19px;
 
-    box-shadow:0 12px 28px rgba(37,99,235,.25);
+    }
 
-}
 
-.compare-btn:hover{
+    .close-btn{
 
-    transform:translateY(-3px);
+        width:37px;
 
-    box-shadow:0 18px 35px rgba(37,99,235,.35);
+        height:37px;
+
+        top:10px;
+
+        right:10px;
+
+    }
+
+
+    .image-comparison{
+
+        gap:8px;
+
+    }
+
+
+    .image-box{
+
+        padding:8px;
+
+    }
+
+
+    .image-box h3{
+
+        font-size:11px;
+
+    }
+
+
+    .image-box img{
+
+        height:115px;
+
+    }
+
+
+    .info-row{
+
+        font-size:13px;
+
+    }
+
+
+    .info-row b{
+
+        font-size:12px;
+
+    }
+
+
+    .compare-btn{
+
+        font-size:12px;
+
+        padding:12px 8px;
+
+    }
+
+
+    .modal-section h3{
+
+        font-size:15px;
+
+    }
+
+
+    .modal-section p,
+    .modal-section li{
+
+        font-size:12px;
+
+    }
 
 }
