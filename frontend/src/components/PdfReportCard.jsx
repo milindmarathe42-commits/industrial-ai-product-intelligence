@@ -117,7 +117,7 @@ function PdfReportCard({ result }) {
                 </div>
 
                 <p className="footer-copy">
-                    © 2026 Millu's Coders Team • Version 1.0.0
+                    © 2026 Millu's Coders • Industrial AI Product Intelligence • v1.0.0
                 </p>
 
             </footer>
