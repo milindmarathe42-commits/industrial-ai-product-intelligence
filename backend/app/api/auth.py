@@ -1,4 +1,6 @@
-from datetime import datetime, timedelta
+import os
+
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -14,7 +16,18 @@ from app.models.user_schema import UserRegister, UserLogin
 router = APIRouter()
 
 
-SECRET_KEY = "industrial_ai_secret_key"
+# =========================================================
+# SECURITY CONFIGURATION
+# =========================================================
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+
+    raise RuntimeError(
+        "SECRET_KEY environment variable is not configured."
+    )
+
 
 ALGORITHM = "HS256"
 
@@ -22,10 +35,17 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
 
 pwd_context = CryptContext(
+
     schemes=["bcrypt"],
+
     deprecated="auto"
+
 )
 
+
+# =========================================================
+# PASSWORD FUNCTIONS
+# =========================================================
 
 def hash_password(password):
 
@@ -35,48 +55,79 @@ def hash_password(password):
 def verify_password(plain, hashed):
 
     return pwd_context.verify(
+
         plain,
+
         hashed
+
     )
 
+
+# =========================================================
+# JWT TOKEN
+# =========================================================
 
 def create_access_token(data):
 
     to_encode = data.copy()
 
-    expire = datetime.utcnow() + timedelta(
+    expire = datetime.now(timezone.utc) + timedelta(
+
         minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+
     )
 
     to_encode.update(
+
         {
+
             "exp": expire
+
         }
+
     )
 
     return jwt.encode(
+
         to_encode,
+
         SECRET_KEY,
+
         algorithm=ALGORITHM
+
     )
 
 
+# =========================================================
+# REGISTER
+# =========================================================
+
 @router.post("/register")
 def register(
+
     user: UserRegister,
+
     db: Session = Depends(get_db)
+
 ):
 
     existing = db.query(User).filter(
+
         User.email == user.email
+
     ).first()
+
 
     if existing:
 
         raise HTTPException(
+
             status_code=400,
+
             detail="Email already registered"
+
         )
+
 
     new_user = User(
 
@@ -85,16 +136,20 @@ def register(
         email=user.email,
 
         password=hash_password(
+
             user.password
+
         )
 
     )
+
 
     db.add(new_user)
 
     db.commit()
 
     db.refresh(new_user)
+
 
     return {
 
@@ -103,14 +158,23 @@ def register(
     }
 
 
+# =========================================================
+# LOGIN
+# =========================================================
+
 @router.post("/login")
 def login(
+
     user: UserLogin,
+
     db: Session = Depends(get_db)
+
 ):
 
     db_user = db.query(User).filter(
+
         User.email == user.email
+
     ).first()
 
 
@@ -118,20 +182,29 @@ def login(
     if not db_user:
 
         raise HTTPException(
+
             status_code=404,
+
             detail="User not found. Please register first."
+
         )
 
 
     # Password is incorrect
     if not verify_password(
+
         user.password,
+
         db_user.password
+
     ):
 
         raise HTTPException(
+
             status_code=401,
+
             detail="Invalid password. Please try again."
+
         )
 
 
@@ -139,7 +212,9 @@ def login(
     token = create_access_token(
 
         {
+
             "sub": db_user.email
+
         }
 
     )
