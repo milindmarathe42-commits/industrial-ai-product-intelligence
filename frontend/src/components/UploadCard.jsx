@@ -36,64 +36,102 @@ function UploadCard({ refreshData, setResult }) {
 
     };
 
-    const handleUpload = async () => {
-        console.log("ANALYZE BUTTON CLICKED");
+const handleUpload = async () => {
 
-        if (!selectedImage) {
+    console.log("================================");
+    console.log("ANALYZE BUTTON CLICKED");
+    console.log("Selected image:", selectedImage);
+    console.log("Image name:", selectedImage?.name);
+    console.log("Image size:", selectedImage?.size);
+    console.log("Image type:", selectedImage?.type);
+    console.log("================================");
 
-            toast.error("Please select an image.");
+    if (!selectedImage) {
 
-            return;
+        toast.error("Please select an image.");
 
-        }
+        return;
 
-        const formData = new FormData();
+    }
 
-        formData.append("file", selectedImage);
+    const formData = new FormData();
 
-        setLoading(true);
+    formData.append("file", selectedImage);
 
-        try {
+    setLoading(true);
 
-            const response = await api.post(
+    console.log("UPLOAD REQUEST STARTING...");
 
-                "/upload",
+    try {
 
-                formData
+        const response = await api.post(
+            "/upload",
+            formData,
+            {
+                timeout: 180000
+            }
+        );
 
-            );
+        console.log("UPLOAD RESPONSE RECEIVED");
+        console.log("Status:", response.status);
+        console.log("Response:", response.data);
 
-            toast.success(
+        toast.success(
+            "Product analyzed successfully!"
+        );
 
-                "Product analyzed successfully!"
+        setResult(response.data);
 
-            );
+        refreshData();
 
-            setResult(response.data);
+    }
 
-            refreshData();
+    catch (err) {
 
-        }
+        console.log("================================");
+        console.log("UPLOAD ERROR");
+        console.log("Message:", err.message);
+        console.log("Code:", err.code);
+        console.log("Response:", err.response?.data);
+        console.log("Status:", err.response?.status);
+        console.log("================================");
 
-        catch (err) {
+        if (err.code === "ECONNABORTED") {
 
             toast.error(
-
-                "Upload Failed!"
-
+                "Analysis timed out. Please try again."
             );
 
-            console.log(err);
+        }
+
+        else if (err.response) {
+
+            toast.error(
+                err.response.data?.detail ||
+                "Server error during analysis."
+            );
 
         }
 
-        finally {
+        else {
 
-            setLoading(false);
+            toast.error(
+                "Unable to connect to server."
+            );
 
         }
 
-    };
+    }
+
+    finally {
+
+        console.log("UPLOAD PROCESS FINISHED");
+
+        setLoading(false);
+
+    }
+
+};
 
     return (
 
