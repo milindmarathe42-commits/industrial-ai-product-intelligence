@@ -1,376 +1,625 @@
-.viewer-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+.viewer-overlay{
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    position:fixed;
 
-    z-index: 99999;
+    inset:0;
 
-    animation: viewerFade 0.35s ease;
+    width:100%;
+
+    height:100%;
+
+    background:rgba(15,23,42,.88);
+
+    backdrop-filter:blur(12px);
+
+    -webkit-backdrop-filter:blur(12px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+    animation:viewerFade .35s ease;
+
+    padding:20px;
+
+    box-sizing:border-box;
+
 }
 
 
-.viewer-overlay h2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
+/* ==========================================
+   TITLE
+========================================== */
 
-    color: white;
+.viewer-overlay h2{
 
-    margin: 0 0 25px 0;
+    display:flex;
 
-    font-size: 34px;
-    font-weight: 700;
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    color:white;
+
+    margin:0 0 25px 0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    text-align:center;
+
 }
 
 
-/* MAIN VIEWER */
-.viewer-wrapper {
-    position: relative;
+/* ==========================================
+   MAIN VIEWER
+========================================== */
 
-    width: 85vw;
-    max-width: 1400px;
+.viewer-wrapper{
 
-    height: 75vh;
+    position:relative;
 
-    border-radius: 24px;
+    width:85vw;
 
-    overflow: hidden;
+    max-width:1400px;
 
-    background: #ffffff;
+    height:75vh;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    background:#ffffff;
 
     box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.45);
+        0 30px 80px rgba(0,0,0,.45);
+
 }
 
 
-/* BOTH IMAGES USE EXACT SAME SIZE */
-.viewer-image {
-    position: absolute;
+/* ==========================================
+   BASE IMAGE
+========================================== */
 
-    inset: 0;
+.viewer-image{
 
-    width: 100%;
-    height: 100%;
+    position:absolute;
 
-    object-fit: contain;
-    object-position: center;
+    inset:0;
 
-    background: #f8fafc;
+    width:100%;
 
-    user-select: none;
-    pointer-events: none;
+    height:100%;
+
+    object-fit:contain;
+
+    object-position:center;
+
+    background:#f8fafc;
+
+    user-select:none;
+
+    pointer-events:none;
+
+}
+
+
+/* ==========================================
+   DETECTED IMAGE OVERLAY
+========================================== */
+
+.viewer-overlay-image{
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    height:100%;
+
+    overflow:hidden;
+
+    border-right:4px solid white;
+
+    box-shadow:
+        0 0 25px rgba(0,0,0,.30);
+
+    z-index:2;
+
 }
 
 
 /*
-    IMPORTANT:
-    The overlay itself is only the visible LEFT/RIGHT
-    portion, but its image must remain the FULL viewer size.
+The image inside the overlay keeps the
+same size as the main viewer.
 */
-.viewer-overlay-image {
-    position: absolute;
 
-    top: 0;
-    left: 0;
+.viewer-overlay-image img{
 
-    height: 100%;
+    position:absolute;
 
-    overflow: hidden;
+    top:0;
 
-    border-right: 4px solid white;
+    left:0;
+
+    width:85vw;
+
+    max-width:1400px;
+
+    height:75vh;
+
+    object-fit:contain;
+
+    object-position:center;
+
+    background:#f8fafc;
+
+    user-select:none;
+
+    pointer-events:none;
+
+}
+
+
+/* ==========================================
+   DIVIDER
+========================================== */
+
+.viewer-divider{
+
+    position:absolute;
+
+    top:0;
+
+    bottom:0;
+
+    width:4px;
+
+    background:white;
+
+    transform:translateX(-50%);
+
+    z-index:5;
 
     box-shadow:
-        0 0 25px rgba(0, 0, 0, 0.30);
+        0 0 15px rgba(0,0,0,.25);
 
-    z-index: 2;
 }
 
 
-/*
-    IMPORTANT FIX:
-    Do NOT use width:100% here.
-    That was making the image resize according to
-    the overlay width.
-*/
-.viewer-overlay-image img {
-    position: absolute;
+/* ==========================================
+   HANDLE
+========================================== */
 
-    top: 0;
-    left: 0;
+.viewer-handle{
 
-    width: 85vw;
-    max-width: 1400px;
+    position:absolute;
 
-    height: 75vh;
+    left:50%;
 
-    object-fit: contain;
-    object-position: center;
+    top:50%;
 
-    background: #f8fafc;
+    transform:translate(-50%,-50%);
 
-    user-select: none;
-    pointer-events: none;
-}
+    width:72px;
 
+    height:72px;
 
-/* DIVIDER */
-.viewer-divider {
-    position: absolute;
+    border-radius:50%;
 
-    top: 0;
-    bottom: 0;
+    background:white;
 
-    width: 4px;
+    display:flex;
 
-    background: white;
+    justify-content:center;
 
-    transform: translateX(-50%);
+    align-items:center;
 
-    z-index: 5;
+    font-size:30px;
+
+    color:#2563eb;
+
+    font-weight:700;
+
+    cursor:ew-resize;
 
     box-shadow:
-        0 0 15px rgba(0, 0, 0, 0.25);
+        0 15px 40px rgba(37,99,235,.25);
+
+    transition:.3s;
+
+}
+
+.viewer-handle:hover{
+
+    transform:
+        translate(-50%,-50%)
+        scale(1.12);
+
+    background:#2563eb;
+
+    color:white;
+
 }
 
 
-/* SLIDER HANDLE */
-.viewer-handle {
-    position: absolute;
+/* ==========================================
+   INVISIBLE SLIDER
+========================================== */
 
-    left: 50%;
-    top: 50%;
+.viewer-slider{
 
-    transform: translate(-50%, -50%);
+    position:absolute;
 
-    width: 72px;
-    height: 72px;
+    inset:0;
 
-    border-radius: 50%;
+    width:100%;
 
-    background: white;
+    height:100%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin:0;
 
-    font-size: 30px;
+    opacity:0;
 
-    color: #2563eb;
+    cursor:ew-resize;
 
-    font-weight: 700;
+    z-index:10;
 
-    cursor: ew-resize;
+    touch-action:none;
+
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.viewer-close{
+
+    position:absolute;
+
+    top:35px;
+
+    right:40px;
+
+    width:58px;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:white;
+
+    color:#ef4444;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 
     box-shadow:
-        0 15px 40px rgba(37, 99, 235, 0.25);
+        0 10px 30px rgba(0,0,0,.25);
 
-    transition: 0.3s;
+    transition:.35s;
+
+    z-index:20;
+
+}
+
+.viewer-close:hover{
+
+    transform:
+        rotate(90deg)
+        scale(1.1);
+
+    background:#ef4444;
+
+    color:white;
+
 }
 
 
-.viewer-handle:hover {
-    transform: translate(-50%, -50%) scale(1.12);
+/* ==========================================
+   LABELS
+========================================== */
 
-    background: #2563eb;
+.viewer-labels{
 
-    color: white;
+    width:85vw;
+
+    max-width:1400px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:20px;
+
 }
 
+.viewer-labels span{
 
-/* INVISIBLE SLIDER */
-.viewer-slider {
-    position: absolute;
+    background:white;
 
-    inset: 0;
+    color:#334155;
 
-    width: 100%;
-    height: 100%;
+    padding:12px 22px;
 
-    margin: 0;
+    border-radius:40px;
 
-    opacity: 0;
+    font-size:16px;
 
-    cursor: ew-resize;
-
-    z-index: 10;
-}
-
-
-/* CLOSE BUTTON */
-.viewer-close {
-    position: absolute;
-
-    top: 35px;
-    right: 40px;
-
-    width: 58px;
-    height: 58px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: white;
-
-    color: #ef4444;
-
-    font-size: 24px;
-
-    cursor: pointer;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-weight:700;
 
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25);
+        0 10px 25px rgba(0,0,0,.15);
 
-    transition: 0.35s;
-
-    z-index: 20;
 }
 
 
-.viewer-close:hover {
-    transform: rotate(90deg) scale(1.1);
+/* ==========================================
+   ANIMATION
+========================================== */
 
-    background: #ef4444;
+@keyframes viewerFade{
 
-    color: white;
+    from{
+
+        opacity:0;
+
+        transform:scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
 }
 
 
-/* LABELS */
-.viewer-labels {
-    width: 85vw;
-    max-width: 1400px;
+/* ==========================================
+   TABLET
+========================================== */
 
-    display: flex;
+@media(max-width:992px){
 
-    justify-content: space-between;
+    .viewer-wrapper{
 
-    margin-top: 20px;
+        width:95vw;
+
+        height:65vh;
+
+    }
+
+
+    .viewer-overlay-image img{
+
+        width:95vw;
+
+        height:65vh;
+
+    }
+
+
+    .viewer-labels{
+
+        width:95vw;
+
+    }
+
 }
 
 
-.viewer-labels span {
-    background: white;
+/* ==========================================
+   MOBILE
+========================================== */
 
-    color: #334155;
+@media(max-width:768px){
 
-    padding: 12px 22px;
+    .viewer-overlay{
 
-    border-radius: 40px;
+        padding:12px;
 
-    font-size: 16px;
+        justify-content:center;
 
-    font-weight: 700;
+    }
 
-    box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.15);
+
+    .viewer-overlay h2{
+
+        font-size:22px;
+
+        margin-bottom:15px;
+
+        padding-right:45px;
+
+    }
+
+
+    .viewer-wrapper{
+
+        width:96vw;
+
+        height:52vh;
+
+        border-radius:16px;
+
+    }
+
+
+    .viewer-overlay-image img{
+
+        width:96vw;
+
+        height:52vh;
+
+    }
+
+
+    .viewer-handle{
+
+        width:58px;
+
+        height:58px;
+
+        font-size:23px;
+
+    }
+
+
+    .viewer-divider{
+
+        width:3px;
+
+    }
+
+
+    .viewer-labels{
+
+        width:96vw;
+
+        flex-direction:row;
+
+        gap:8px;
+
+        margin-top:14px;
+
+    }
+
+
+    .viewer-labels span{
+
+        flex:1;
+
+        text-align:center;
+
+        padding:9px 8px;
+
+        font-size:12px;
+
+        border-radius:25px;
+
+    }
+
+
+    .viewer-close{
+
+        top:12px;
+
+        right:12px;
+
+        width:44px;
+
+        height:44px;
+
+        font-size:18px;
+
+    }
+
 }
 
 
-/* ANIMATION */
-@keyframes viewerFade {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
+/* ==========================================
+   SMALL MOBILE
+========================================== */
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+@media(max-width:480px){
 
+    .viewer-overlay{
 
-/* TABLET */
-@media (max-width: 992px) {
+        padding:8px;
 
-    .viewer-wrapper {
-        width: 95vw;
-        height: 65vh;
-    }
-
-    .viewer-overlay-image img {
-        width: 95vw;
-        height: 65vh;
-    }
-
-    .viewer-labels {
-        width: 95vw;
-    }
-}
-
-
-/* MOBILE */
-@media (max-width: 768px) {
-
-    .viewer-overlay h2 {
-        font-size: 24px;
-
-        text-align: center;
-
-        margin-bottom: 18px;
     }
 
 
-    .viewer-wrapper {
-        width: 96vw;
+    .viewer-overlay h2{
 
-        height: 52vh;
+        font-size:19px;
 
-        border-radius: 16px;
+        margin-bottom:12px;
+
     }
 
 
-    .viewer-overlay-image img {
-        width: 96vw;
+    .viewer-wrapper{
 
-        height: 52vh;
+        width:96vw;
+
+        height:48vh;
+
+        border-radius:14px;
+
     }
 
 
-    .viewer-handle {
-        width: 56px;
-        height: 56px;
+    .viewer-overlay-image img{
 
-        font-size: 22px;
+        width:96vw;
+
+        height:48vh;
+
     }
 
 
-    .viewer-labels {
-        width: 96vw;
+    .viewer-handle{
 
-        flex-direction: column;
+        width:52px;
 
-        gap: 12px;
+        height:52px;
 
-        margin-top: 15px;
+        font-size:21px;
+
     }
 
 
-    .viewer-labels span {
-        text-align: center;
+    .viewer-labels{
+
+        width:96vw;
+
+        gap:6px;
+
     }
 
 
-    .viewer-close {
-        top: 15px;
-        right: 15px;
+    .viewer-labels span{
 
-        width: 48px;
-        height: 48px;
+        padding:8px 5px;
 
-        font-size: 20px;
+        font-size:10px;
+
     }
+
+
+    .viewer-close{
+
+        width:40px;
+
+        height:40px;
+
+        font-size:16px;
+
+    }
+
 }
