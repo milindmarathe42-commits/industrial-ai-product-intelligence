@@ -10,10 +10,15 @@ def analyze_product(detections):
             "possible_defects": [
                 "No object detected"
             ],
-            "recommendation": "Capture image again"
+            "recommendation": "Capture a clearer image"
         }
 
-    best = max(detections, key=lambda x: x["confidence"])
+    best = detections[0]
+
+    for item in detections:
+
+        if item["confidence"] > best["confidence"]:
+            best = item
 
     product = best["object"]
     confidence = best["confidence"]
@@ -21,16 +26,48 @@ def analyze_product(detections):
     quality_score = int(confidence * 100)
 
     if confidence >= 0.90:
+
         condition = "Excellent"
 
     elif confidence >= 0.70:
+
         condition = "Good"
 
     elif confidence >= 0.50:
+
         condition = "Average"
 
     else:
-        condition = "Needs Inspection"
+
+        condition = "Poor"
+
+    defects = []
+
+    if confidence < 0.70:
+
+        defects.append(
+            "Low detection confidence"
+        )
+
+    if len(detections) > 1:
+
+        defects.append(
+            "Multiple objects detected"
+        )
+
+    if len(defects) == 0:
+
+        defects.append(
+            "No visual defect identified by object detection"
+        )
+
+    if confidence < 0.70:
+
+        recommendation = "Requires Manual Verification"
+
+    else:
+
+        recommendation = "Proceed to AI Visual Inspection"
 
     return {
 
@@ -42,11 +79,7 @@ def analyze_product(detections):
 
         "quality_score": quality_score,
 
-        "possible_defects": [
-            "No visible crack",
-            "No rust detected",
-            "No missing parts"
-        ],
+        "possible_defects": defects,
 
-        "recommendation": "Ready for Installation"
+        "recommendation": recommendation
     }

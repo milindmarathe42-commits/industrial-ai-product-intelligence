@@ -1,43 +1,74 @@
 import os
 import json
+
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
+
 
 load_dotenv()
+
 
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
 
-def ask_gemini(product_name, detections):
+def ask_gemini(product_name, detections, image_path):
 
     prompt = f"""
-You are an Industrial Quality Inspection AI used in manufacturing industries.
+You are an Industrial Quality Inspection AI.
 
-Your responsibility is to generate a structured inspection report ONLY from the detected objects.
+Analyze the PROVIDED PRODUCT IMAGE together with the YOLO
+detection information.
 
-IMPORTANT RULES:
+Your job is to create a professional inspection report.
 
-1. Never invent product names.
-2. Never invent brands.
-3. If the brand is unknown, return "Unknown".
-4. Use ONLY the detected objects provided.
-5. Do NOT hallucinate.
-6. Do NOT assume colors, materials, manufacturers or model numbers.
-7. If confidence is low, recommend manual inspection.
-8. Return ONLY valid JSON.
-9. No markdown.
-10. No explanation.
-11. No extra text.
+IMPORTANT:
 
-Primary Detected Product:
+1. The IMAGE is the primary source of truth.
+
+2. YOLO detections are supporting information only.
+
+3. Do NOT blindly trust the YOLO class.
+
+4. If YOLO says "truck" but the image clearly shows another
+   object, use the visual evidence from the image.
+
+5. Never invent a brand.
+
+6. Only provide a brand if it is clearly visible or confidently
+   identifiable from the image.
+
+7. If the brand cannot be identified, return "Unknown".
+
+8. Do not invent model numbers.
+
+9. Do not invent physical defects.
+
+10. Only mention defects that are actually visible in the image.
+
+11. If the image quality is insufficient for inspection,
+    clearly mention that.
+
+12. The quality score must reflect the overall visual inspection,
+    not simply YOLO confidence.
+
+13. Return ONLY valid JSON.
+
+14. Do not use markdown.
+
+15. Do not add explanations outside the JSON.
+
+YOLO DETECTION INFORMATION:
+
+Primary YOLO Product:
 {product_name}
 
-Detected Objects:
-{detections}
+YOLO Detections:
+{json.dumps(detections)}
 
-Return JSON in this exact format:
+Return exactly this JSON structure:
 
 {{
     "product_name": "",
@@ -50,75 +81,118 @@ Return JSON in this exact format:
     "summary": ""
 }}
 
-Field Instructions:
+PRODUCT NAME:
 
-product_name:
-- Use ONLY the detected primary product.
-- Never invent another product.
+Identify the actual visible product from the image.
 
-brand:
-- Return "Unknown" unless the brand is clearly identifiable.
+If uncertain:
 
-category:
-Choose the most appropriate category.
+"Unknown"
+
+BRAND:
+
+Identify the manufacturer/brand only when there is sufficient
+visual evidence.
 
 Examples:
-Bottle -> Packaging
-Person -> Human
-Car -> Automobile
-Laptop -> Electronics
-Phone -> Electronics
-Chair -> Furniture
-Bowl -> Kitchenware
-Cup -> Kitchenware
-Keyboard -> Electronics
 
-condition:
-Return ONLY one of:
+Hyundai
+Toyota
+Samsung
+Apple
+
+If not clearly identifiable:
+
+"Unknown"
+
+CATEGORY:
+
+Choose an appropriate category.
+
+Examples:
+
+Automobile
+Electronics
+Packaging
+Furniture
+Kitchenware
+Industrial Equipment
+
+CONDITION:
+
+Use only:
+
 Excellent
 Good
 Average
 Poor
+Unknown
 
-quality_score:
-Return an integer between 0 and 100 based on the overall detection confidence.
+QUALITY SCORE:
 
-possible_defects:
-Mention only realistic inspection observations such as:
+Return an integer from 0 to 100.
 
-- Low detection confidence
-- Object partially visible
-- Object partially occluded
-- Image quality is low
-- Manual inspection recommended
+Base it on visible product condition, image quality,
+inspection confidence and visible defects.
 
-Do NOT invent:
-- Scratches
-- Rust
-- Cracks
-- Missing parts
-- Dents
+Do NOT simply copy the YOLO confidence.
 
-unless they are actually visible from the detected information.
+POSSIBLE DEFECTS:
 
-recommendation:
-Give a short industrial recommendation.
+Only mention defects that are visibly supported by the image.
 
 Examples:
-"Ready for Inspection"
-"Ready for Packaging"
+
+"Visible surface damage"
+"Visible dent"
+"Visible crack"
+"Visible rust"
+"Damaged component"
+"Object partially visible"
+"Low image quality"
+"Low inspection confidence"
+
+If no defect can be visually confirmed:
+
+[]
+
+RECOMMENDATION:
+
+Give a professional industrial recommendation.
+
+Examples:
+
+"Approved for further processing"
 "Requires Manual Verification"
 "Needs Better Image Capture"
+"Requires Maintenance Inspection"
 
-summary:
-Write a professional 2-3 sentence industrial inspection summary based ONLY on the detected objects.
+SUMMARY:
+
+Write a professional 2-3 sentence inspection summary based
+on the image and available detection information.
 """
 
     try:
 
+        with open(image_path, "rb") as image_file:
+
+            image_bytes = image_file.read()
+
         response = client.models.generate_content(
+
             model="gemini-3.5-flash",
-            contents=prompt
+
+            contents=[
+
+                types.Part.from_bytes(
+                    data=image_bytes,
+                    mime_type="image/jpeg"
+                ),
+
+                prompt
+
+            ]
         )
 
         text = response.text.strip()
@@ -127,22 +201,27 @@ Write a professional 2-3 sentence industrial inspection summary based ONLY on th
 
     except Exception as e:
 
+        print("=" * 60)
+        print("Gemini Error:")
+        print(str(e))
+        print("=" * 60)
+
         error_message = str(e).lower()
 
         if "503" in error_message or "unavailable" in error_message:
 
             summary = (
-                "Gemini AI is temporarily unavailable due to high server demand. "
-                "The inspection was successfully completed using the YOLO detection engine. "
-                "Please try again later to generate the AI summary."
+                "Gemini AI is temporarily unavailable. "
+                "The YOLO detection was completed successfully. "
+                "Please try the inspection again later."
             )
 
         elif "429" in error_message:
 
             summary = (
                 "Gemini API rate limit has been reached. "
-                "The inspection was completed successfully using YOLO detection. "
-                "Please wait a few moments before trying again."
+                "The YOLO detection was completed successfully. "
+                "Please wait before trying again."
             )
 
         elif "401" in error_message or "403" in error_message:
@@ -155,20 +234,29 @@ Write a professional 2-3 sentence industrial inspection summary based ONLY on th
         else:
 
             summary = (
-                "AI summary could not be generated at this time. "
-                "The product inspection completed successfully using the YOLO detection engine."
+                "AI visual inspection could not be completed. "
+                "The YOLO detection engine completed successfully."
             )
 
         return {
+
             "product_name": product_name,
+
             "brand": "Unknown",
+
             "category": "Unknown",
+
             "condition": "Unknown",
+
             "quality_score": 0,
+
             "possible_defects": [
-                "AI summary unavailable",
+                "AI visual inspection unavailable",
                 "Manual inspection recommended"
             ],
-            "recommendation": "Manual inspection required",
+
+            "recommendation":
+                "Manual inspection required",
+
             "summary": summary
         }

@@ -16,6 +16,7 @@ from app.api.auth import get_current_user
 import shutil
 import os
 import json
+import uuid
 
 router = APIRouter()
 
@@ -48,12 +49,28 @@ async def upload_image(
 
 
     # -------------------------------------
+    # Generate Unique Filename
+    # -------------------------------------
+
+    original_filename = file.filename
+
+    extension = os.path.splitext(
+        original_filename
+    )[1].lower()
+
+    unique_filename = (
+        uuid.uuid4().hex +
+        extension
+    )
+
+
+    # -------------------------------------
     # Save Uploaded Image
     # -------------------------------------
 
     file_path = os.path.join(
         UPLOAD_FOLDER,
-        file.filename
+        unique_filename
     )
 
     with open(file_path, "wb") as buffer:
@@ -68,27 +85,40 @@ async def upload_image(
     # OpenCV Processing
     # -------------------------------------
 
-    result = process_image(file_path)
+    result = process_image(
+        file_path
+    )
 
 
     # -------------------------------------
     # YOLO Detection
     # -------------------------------------
 
-    results, output_path = detect_objects(file_path)
+    results, output_path = detect_objects(
+        file_path
+    )
 
-    output_path = output_path.replace("\\", "/")
+    output_path = output_path.replace(
+        "\\",
+        "/"
+    )
 
     detections = []
 
 
     for box in results[0].boxes:
 
-        class_id = int(box.cls[0])
+        class_id = int(
+            box.cls[0]
+        )
 
-        class_name = results[0].names[class_id]
+        class_name = results[0].names[
+            class_id
+        ]
 
-        confidence = float(box.conf[0])
+        confidence = float(
+            box.conf[0]
+        )
 
         detections.append({
 
@@ -119,7 +149,9 @@ async def upload_image(
 
         product_result["product"],
 
-        detections
+        detections,
+
+        file_path
 
     )
 
@@ -154,10 +186,15 @@ async def upload_image(
 
         user_id=current_user.id,
 
-        filename=file.filename,
+        # Keep original filename for display
+        filename=original_filename,
 
-        input_image=f"uploads/{file.filename}",
+        # Store UNIQUE uploaded image path
+        input_image=(
+            f"uploads/{unique_filename}"
+        ),
 
+        # Store UNIQUE YOLO output path
         output_image=(
             f"outputs/{os.path.basename(output_path)}"
         ),
@@ -229,24 +266,37 @@ async def upload_image(
 
     return {
 
-        "message": "Image uploaded successfully",
+        "message":
+            "Image uploaded successfully",
 
-        "filename": file.filename,
+        "filename":
+            original_filename,
 
-        "image_info": result,
+        "image_info":
+            result,
 
-        "detections": detections,
+        "detections":
+            detections,
 
-        "product_analysis": product_result,
+        "product_analysis":
+            product_result,
 
-        "ai_report": ai_report,
+        "ai_report":
+            ai_report,
 
-        "output_image": (
-            f"outputs/{os.path.basename(output_path)}"
-        ),
+        "input_image":
+            f"uploads/{unique_filename}",
 
-        "pdf_report": pdf_path,
+        "output_image":
+            (
+                f"outputs/"
+                f"{os.path.basename(output_path)}"
+            ),
 
-        "database_id": new_product.id
+        "pdf_report":
+            pdf_path,
+
+        "database_id":
+            new_product.id
 
     }
