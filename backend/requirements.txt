@@ -20,3 +20,5 @@ opencv-python-headless
 torch
 torchvision
 ultralytics
+
+reportlab
